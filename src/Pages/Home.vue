@@ -1,5 +1,7 @@
 <template>
-  <Sidebar :imgProfile="imgProfile" :userName="userName" />
+  <div class="home-container w-screen h-screen">
+    <Sidebar :imgProfile="imgProfile" :userName="userName" />
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -12,3 +14,9 @@ interface Props {
 
 defineProps<Props>();
 </script>
+
+<style>
+.home-container{
+  background-color:var(--secundary-color);
+}
+</style>

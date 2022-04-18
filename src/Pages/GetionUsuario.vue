@@ -1,65 +1,68 @@
 <template>
-    <div class="sidebar">
-        <Sidebar userName="Yael" :imgProfile="imgProfile" />
-    </div>
-    <div class="flex flex-col w-4/5 ml-auto">
-        <div class="overflow-x-auto mx-1">
-            <h3 class="text-3xl	 text-center mt-4">Gestion de usuarios</h3>
-            <div class="flex fixed bottom-5 right-5">
-                <a href="/create"
-                    class="inline-block px-6 py-2.5 bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700 active:shadow-lg transition duration-150 ease-in-out">
-                    Crear
-                </a>
-            </div>
-            <div class="py-4 inline-block min-w-full ">
-                <div class="overflow-hidden">
-                    <table class="min-w-full text-center">
-                        <thead class="border-b bg-gray-50">
-                            <tr>
-                                <th scope="col" class="text-sm font-medium text-gray-900 px-3 py-4">
-                                    Nombre
-                                </th>
-                                <th scope="col" class="text-sm font-medium text-gray-900 px-3 py-4">
-                                    Apellido
-                                </th>
-                                <th scope="col" class="text-sm font-medium text-gray-900 px-3 py-4">
-                                    Correo
-                                </th>
-                                <th scope="col" class="text-sm font-medium text-gray-900 px-3 py-4">
-                                    Rol
-                                </th>
-                                <th scope="col" class="text-sm font-medium text-gray-900 px-3 py-4">
-                                    Options
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(item, index) in usuarios" :key="index" class="bg-white border-b">
-                                <td class="text-sm text-gray-900 font-light px-1 py-4 whitespace-nowrap">
-                                    {{ item.name }}
-                                </td>
-                                <td class="text-sm text-gray-900 font-light px-1 py-4 whitespace-nowrap">
-                                    {{ item.lastname }}
-                                </td>
-                                <td class="text-sm text-gray-900 font-light px-1 py-4 whitespace-nowrap">
-                                    {{ item.email }}
-                                </td>
-                                <td class="text-sm text-gray-900 font-light px-1 py-4 whitespace-nowrap">
-                                    {{ item.rol?.rol_type }}
-                                </td>
-                                <td class="text-sm text-gray-900 font-light px-1 py-4 whitespace-nowrap">
-                                    <a :href="`/editar-usuario/?id=${item.id}`"
-                                        class="inline-block mr-2 px-6 py-2.5 bg-blue-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-500 hover:shadow-lg focus:bg-blue-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-600 active:shadow-lg transition duration-150 ease-in-out">
-                                        Editar
-                                    </a>
-                                    <button type="button" @click="deleteUser(item.id, index)"
-                                        class="inline-block px-6 py-2.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out">
-                                        Eliminar
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+    <div class="gestion_usuario-container w-screen h-screen">
+
+        <div class="sidebar">
+            <Sidebar userName="Yael" :imgProfile="imgProfile" />
+        </div>
+        <div class="flex flex-col w-4/5 ml-auto">
+            <div class="overflow-x-auto mx-1">
+                <h3 class="text-3xl	 text-center mt-4">Gestion de usuarios</h3>
+                <div class="flex fixed bottom-5 right-5">
+                    <a href="/create"
+                        class="inline-block px-6 py-2.5 bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700 active:shadow-lg transition duration-150 ease-in-out">
+                        Crear
+                    </a>
+                </div>
+                <div class="py-4 inline-block min-w-full ">
+                    <div class="overflow-hidden">
+                        <table class="min-w-full text-center">
+                            <thead class="border-b  td-head">
+                                <tr>
+                                    <th scope="col" class="text-lg font-medium text-white px-3 py-4">
+                                        Nombre
+                                    </th>
+                                    <th scope="col" class="text-lg font-medium text-white px-3 py-4">
+                                        Apellido
+                                    </th>
+                                    <th scope="col" class="text-lg font-medium text-white px-3 py-4">
+                                        Correo
+                                    </th>
+                                    <th scope="col" class="text-lg font-medium text-white px-3 py-4">
+                                        Rol
+                                    </th>
+                                    <th scope="col" class="text-lg font-medium text-white px-3 py-4">
+                                        Options
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(item, index) in usuarios" :key="index" class="bg-slate-50 border-b">
+                                    <td class="text-lg text-gray-900 font-light px-1 py-4 whitespace-nowrap">
+                                        {{ item.name }}
+                                    </td>
+                                    <td class="text-lg text-gray-900 font-light px-1 py-4 whitespace-nowrap">
+                                        {{ item.lastname }}
+                                    </td>
+                                    <td class="text-lg text-gray-900 font-light px-1 py-4 whitespace-nowrap">
+                                        {{ item.email }}
+                                    </td>
+                                    <td class="text-lg text-gray-900 font-light px-1 py-4 whitespace-nowrap">
+                                        {{ item.rol?.rol_type }}
+                                    </td>
+                                    <td class="text-lg text-gray-900 font-light px-1 py-4 whitespace-nowrap">
+                                        <a :href="`/editar-usuario/?id=${item.id}`"
+                                            class="inline-block mr-2 px-6 py-2.5 bg-blue-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-500 hover:shadow-lg focus:bg-blue-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-600 active:shadow-lg transition duration-150 ease-in-out">
+                                            Editar
+                                        </a>
+                                        <button type="button" @click="deleteUser(item.id, index)"
+                                            class="inline-block px-6 py-2.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out">
+                                            Eliminar
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -103,3 +106,12 @@ async function deleteUser(id: any, index: number) {
     catch { }
 }
 </script>
+<style>
+.gestion_usuario-container {
+    background-color: var(--secundary-color);
+}
+
+.td-head {
+    background-color: var(--primary-color);
+}
+</style>

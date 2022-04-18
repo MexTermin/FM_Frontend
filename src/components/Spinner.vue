@@ -4,20 +4,17 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  name: "Loader"
-}
+<script lang="ts" setup>
 </script>
 
 <style>
-.loader-container{
+.loader-container {
   width: 100%;
   height: 100px;
-  position:fixed;
-  top:0px;
-  left:0px;
-  background-color:white;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  background-color: white;
   border-bottom: 1px solid rgb(163, 163, 163);
 }
 

@@ -14,30 +14,24 @@
     </div>
     <ul class="relative px-1">
       <li class="relative">
-        <a
-          class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out"
-          href="#!"
-        >
+        <a class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out"
+          href="#!">
           <span>Presupuestos</span>
         </a>
       </li>
       <li class="relative" id="sidenavSecEx2">
         <a
-          class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out cursor-pointer"
-        >
+          class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out cursor-pointer">
           <span>Estimaciones</span>
         </a>
       </li>
       <li class="relative" id="sidenavSecEx3">
         <a
-          class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out cursor-pointer"
-        >
+          class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out cursor-pointer">
           <span>Perfil</span>
         </a>
-        <a
-          class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out cursor-pointer"
-          href="/gestion-usuario"
-        >
+        <a class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out cursor-pointer"
+          href="/gestion-usuario">
           <span>Gestionar Usuarios</span>
         </a>
       </li>
@@ -49,12 +43,13 @@
   </div>
 </template>
 
-<script lang="ts">
-  export default {
-    props: ["userName", "imgProfile"],
-    name: "sidebar",
-    components: {},
-  };
-</script>
+<script lang="ts" setup>
 
-<style></style>
+interface Props {
+  userName: string;
+  imgProfile: string;
+}
+
+defineProps<Props>();
+
+</script>

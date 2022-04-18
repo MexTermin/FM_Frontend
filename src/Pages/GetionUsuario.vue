@@ -75,7 +75,7 @@ import Axios from "axios"
 // import Modal from "../components/Modal.vue"
 
 interface Props {
-    imgProfile: unknown;
+    imgProfile: string;
     userName: string;
 }
 

@@ -41,10 +41,17 @@
           <span>Gestionar Usuarios</span>
         </a>
       </li>
+      <li class="relative" id="sidenavSecEx2">
+
+      </li>
     </ul>
     <div class="text-center bottom-0 absolute w-full">
       <hr class="m-0" />
-      <!-- <p class="py-2 text-xl text-gray-700">tailwind-elements.com</p> -->
+      <a
+      href="/login"
+        class="flex items-center text-lg py-4 px-6 h-12 overflow-hidden text-white text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out cursor-pointer">
+        <span>Salir</span>
+      </a>
     </div>
   </div>
 </template>

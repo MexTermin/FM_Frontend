@@ -29,9 +29,8 @@
                                         </div>
                                         <div class="text-center pt-1 mb-12 pb-1">
                                             <button
-                                                class="inline-block px-6 py-2.5 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full mb-3"
+                                                class="btn_fm-primary inline-block px-6 py-2.5 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full mb-3"
                                                 type="button" data-mdb-ripple="true" data-mdb-ripple-color="light"
-                                                style="background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);"
                                                 v-on:click="login">
                                                 Inicias sección
                                             </button>
@@ -39,8 +38,8 @@
                                     </form>
                                 </div>
                             </div>
-                            <div class="lg:w-6/12 flex items-center lg:rounded-r-lg rounded-b-lg lg:rounded-bl-none"
-                                style="background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);">
+                            <div
+                                class="section-color lg:w-6/12 flex items-center lg:rounded-r-lg rounded-b-lg lg:rounded-bl-none">
                                 <div class="text-white px-4 py-6 md:p-12 md:mx-6">
                                 </div>
                             </div>
@@ -91,3 +90,9 @@ async function login() {
 }
 
 </script>
+
+<style>
+.section-color {
+    background: linear-gradient(to right, var(--primary-gradient));
+}
+</style>

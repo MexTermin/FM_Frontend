@@ -4,7 +4,7 @@
         <div class="sidebar">
             <Sidebar userName="Yael" :imgProfile="imgProfile" />
         </div>
-        <div class="flex flex-col w-4/5 ml-auto">
+        <div class="flex flex-col w-5/6 ml-auto">
             <div class="overflow-x-auto mx-1">
                 <h3 class="text-3xl	 text-center mt-4">Gestion de usuarios</h3>
                 <div class="flex fixed bottom-5 right-5">
@@ -31,7 +31,7 @@
                                         Rol
                                     </th>
                                     <th scope="col" class="text-lg font-medium text-white px-3 py-4">
-                                        Options
+                                        Opciones
                                     </th>
                                 </tr>
                             </thead>

@@ -68,13 +68,13 @@ const correo = ref("");
 const contrasegna = ref("");
 const loading = ref(false);
 const msg = ref<string>(null!);
-const url: string = `${VITE_FM_API_URL}/user/loging`;
+const url: string = `${VITE_FM_API_URL}/user/login`;
 
 async function login() {
     let user;
     const body = {
-        "correo": correo.value,
-        "contrasegna": contrasegna.value
+        "email": correo.value,
+        "pass": contrasegna.value
     }
     loading.value = true
     try {

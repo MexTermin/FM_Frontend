@@ -79,6 +79,7 @@
 import Sidebar from "../components/Sidebar.vue";
 import imgProfile from "../img/account_circle_black.svg";
 import Loader from "../components/Spinner.vue"
+import router from "../Routers/Router"
 import Axios from "axios"
 import { onMounted, ref } from "vue";
 
@@ -137,6 +138,8 @@ async function ActualizarUsuario() {
         if (result?.status == 200) {
             msg.value = null!;
             msgSuccess.value = "Usuario actualizado correctamente"
+            router.push("/gestion-usuario")
+
         }
     }
     catch {

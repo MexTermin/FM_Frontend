@@ -15,7 +15,7 @@ const router = createRouter({
     { path: "/", component: Home, props: { imgProfile, userName: "Yael" } },
     { path: "/login", component: Login, props: { imgLogin }, name: "login" },
     { path: "/create", component: CreateAccount, props: { imgLogin } },
-    { path: "/gestion-usuario", component: GestionUsuario, props: { imgProfile, userName: "User" } },
+    { path: "/gestion-usuario", component: GestionUsuario, props: { imgProfile, userName: "User" }, name:"GestionUsuario" },
     { path: "/editar-usuario", component: EditarUsuario, props: { imgLogin, imgProfile, userName: "User" } },
   ],
 });

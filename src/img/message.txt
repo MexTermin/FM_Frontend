@@ -1,0 +1,290 @@
+{
+  "tipoFicha": {
+      "id": 1,
+      "codigo": "ficha021",
+      "nombre": "Ficha02",
+      "descripcion": "esta es la ficha 2",
+      "habilitado": true,
+      "generaAgenda": false,
+      "eliminado": false
+    },
+
+  "estructuraFichas": [
+    {
+      "id": 1,
+      "idTipoFicha": 1,
+      "idCampo": 1,
+      "idTipoDato": 1,
+      "idReferencia": null,
+      "requerido": false,
+      "unico": false,
+      "enfocado": false,
+      "orden": 1,
+      "formula": null,
+      "habilitado": true,
+      "tipoFicha": {
+        "id": 1,
+        "codigo": "ficha021",
+        "nombre": "Ficha02",
+        "descripcion": "esta es la ficha 2",
+        "habilitado": true,
+        "generaAgenda": false,
+        "eliminado": false
+      },
+      "campo": {
+        "id": 1,
+        "nombre": "campo1",
+        "descripcion": null,
+        "eliminado": false,
+        "nomenclador": null
+      },
+      "tipoDato": {
+        "id": 1,
+        "codigo": "lista",
+        "nombre": "Lista",
+        "descripcion": "",
+        "eliminado": false
+      }
+    },
+    {
+      "id": 2,
+      "idTipoFicha": 1,
+      "idCampo": 2,
+      "idTipoDato": 1,
+      "idReferencia": null,
+      "requerido": false,
+      "unico": false,
+      "enfocado": false,
+      "orden": 1,
+      "formula": null,
+      "habilitado": true,
+      "tipoFicha": {
+        "id": 1,
+        "codigo": "ficha021",
+        "nombre": "Ficha02",
+        "descripcion": "esta es la ficha 2",
+        "habilitado": true,
+        "generaAgenda": false,
+        "eliminado": false
+      },
+      "campo": {
+        "id": 2,
+        "nombre": "campo2",
+        "descripcion": null,
+        "eliminado": false,
+        "nomenclador": null
+      },
+      "tipoDato": {
+        "id": 1,
+        "codigo": "lista",
+        "nombre": "Lista",
+        "descripcion": "",
+        "eliminado": false
+      },
+      "referencia": null,
+      "tipoFichaDependencia": null,
+      "eliminado": false
+    },
+    {
+      "id": 3,
+      "idTipoFicha": 1,
+      "idCampo": 3,
+      "idTipoDato": 1,
+      "idReferencia": null,
+      "requerido": false,
+      "unico": false,
+      "enfocado": false,
+      "orden": 1,
+      "formula": null,
+      "habilitado": true,
+      "tipoFicha": {
+        "id": 1,
+        "codigo": "ficha021",
+        "nombre": "Ficha02",
+        "descripcion": "esta es la ficha 2",
+        "habilitado": true,
+        "generaAgenda": false,
+        "eliminado": false
+      },
+      "campo": {
+        "id": 3,
+        "nombre": "campo3",
+        "descripcion": null,
+        "eliminado": false,
+        "nomenclador": null
+      },
+      "tipoDato": {
+        "id": 1,
+        "codigo": "lista",
+        "nombre": "Lista",
+        "descripcion": "",
+        "eliminado": false
+      },
+      "referencia": null,
+      "tipoFichaDependencia": null,
+      "eliminado": false
+    }
+  ],
+
+  "tipoFichaDependencias": [
+    {
+      "id": 1,
+      "idTipoFicha": 1,
+      "idCampo": 1,
+      "idTipoDependencia": 1,
+      "tipoFicha": {
+        "id": 1,
+        "codigo": "ficha021",
+        "nombre": "Ficha02",
+        "descripcion": "esta es la ficha 2",
+        "habilitado": true,
+        "generaAgenda": false,
+        "eliminado": false
+      },
+      "campo": {
+        "id": 1,
+        "nombre": "campo1",
+        "descripcion": null,
+        "eliminado": false,
+        "nomenclador": null
+      },
+      "tipoDependencia": {
+        "id": 1,
+        "nombre": "valor",
+        "descripcion": "Dependencia de tipo valor",
+        "eliminado": false,
+        "nomenclador": null
+      },
+      "eliminado": false,
+      "camposDependientes": [
+        {
+          "id": 1,
+          "idTipoFichaDependencia": 1,
+          "idCampo": 2,
+          "tipoFichaDependencia": {
+            "id": 1,
+            "idTipoFicha": 1,
+            "idCampo": 1,
+            "idTipoDependencia": 1,
+            "tipoFicha": {
+              "id": 1,
+              "codigo": "ficha021",
+              "nombre": "Ficha02",
+              "descripcion": "esta es la ficha 2",
+              "habilitado": true,
+              "generaAgenda": false,
+              "eliminado": false
+            },
+            "campo": {
+              "id": 1,
+              "nombre": "campo1",
+              "descripcion": null,
+              "eliminado": false,
+              "nomenclador": null
+            },
+            "tipoDependencia": {
+              "id": 1,
+              "nombre": "valor",
+              "descripcion": "Dependencia de tipo valor",
+              "eliminado": false,
+              "nomenclador": null
+            },
+            "eliminado": false,
+            "camposDependientes": []
+          },
+          "campo": {
+            "id": 2,
+            "nombre": "campo2",
+            "descripcion": null,
+            "eliminado": false,
+            "nomenclador": null
+          },
+          "dependenciaDato": {
+            "id": 1,
+            "idTipoFichaDependenciaCampo": 1,
+            "idOperador": 1,
+            "minimo": "13",
+            "maximo": "536",
+            "valorCampo": "lerg - 15",
+            "idObjetoReferencia": null,
+            "idValorLista": null,
+            "idObjetoFicha": null,
+            "tipoFichaDependenciaCampo": null,
+            "operador": {
+              "id": 1,
+              "nombre": "=",
+              "descripcion": "Compara de forma igualitaria",
+              "eliminado": false,
+              "nomenclador": null
+            },
+            "valorLista": null
+          },
+          "eliminado": false
+        },
+        {
+          "id": 2,
+          "idTipoFichaDependencia": 1,
+          "idCampo": 3,
+          "tipoFichaDependencia": {
+            "id": 1,
+            "idTipoFicha": 1,
+            "idCampo": 1,
+            "idTipoDependencia": 1,
+            "tipoFicha": {
+              "id": 1,
+              "codigo": "ficha021",
+              "nombre": "Ficha02",
+              "descripcion": "esta es la ficha 2",
+              "habilitado": true,
+              "generaAgenda": false,
+              "eliminado": false
+            },
+            "campo": {
+              "id": 1,
+              "nombre": "campo1",
+              "descripcion": null,
+              "eliminado": false,
+              "nomenclador": null
+            },
+            "tipoDependencia": {
+              "id": 1,
+              "nombre": "valor",
+              "descripcion": "Dependencia de tipo valor",
+              "eliminado": false,
+              "nomenclador": null
+            },
+            "eliminado": false
+          },
+          "campo": {
+            "id": 3,
+            "nombre": "campo3",
+            "descripcion": null,
+            "eliminado": false,
+            "nomenclador": null
+          },
+          "dependenciaDato": {
+            "id": 2,
+            "idTipoFichaDependenciaCampo": 2,
+            "idOperador": 1,
+            "minimo": "142",
+            "maximo": "576",
+            "valorCampo": "fbhertf - 9087",
+            "idObjetoReferencia": null,
+            "idValorLista": null,
+            "idObjetoFicha": null,
+            "tipoFichaDependenciaCampo": null,
+            "operador": {
+              "id": 1,
+              "nombre": "=",
+              "descripcion": "Compara de forma igualitaria",
+              "eliminado": false,
+              "nomenclador": null
+            },
+            "valorLista": null
+          },
+          "eliminado": false
+        }
+      ]
+    }
+  ]
+}

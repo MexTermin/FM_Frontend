@@ -3,7 +3,7 @@
         <div class="sidebar">
             <Sidebar userName="Yael" :imgProfile="imgProfile" />
         </div>
-        <Modal text="Desea eliminar este usuario?" btnColor="red" @confirm="deleteUser(userId, userIndex)" />
+        <Modal text="¿Deseas eliminar este usuario?" btnColor="red" @confirm="deleteUser(userId, userIndex)" />
         <div class="flex flex-col w-5/6 ml-auto">
             <div class="overflow-x-auto mx-1">
                 <h3 class="text-3xl	 text-center mt-4">Gestion de usuarios</h3>

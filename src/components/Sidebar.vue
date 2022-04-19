@@ -13,43 +13,16 @@
       </a>
     </div>
     <ul class="relative px-1">
-      <li class="relative">
+      <li class="relative" v-for="(item, index) in sidevarItems" :key="index">
         <a class="flex items-center text-lg py-4 px-6 h-12 overflow-hidden text-white text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out"
-          href="/">
-          <span>Inicio</span>
+          :href="item.href">
+          <span>{{item.title}}</span>
         </a>
-      </li>
-      <li class="relative">
-        <a class="flex items-center text-lg py-4 px-6 h-12 overflow-hidden text-white text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out"
-          href="#!">
-          <span>Presupuestos</span>
-        </a>
-      </li>
-      <li class="relative" id="sidenavSecEx2">
-        <a
-          class="flex items-center text-lg py-4 px-6 h-12 overflow-hidden text-white text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out cursor-pointer">
-          <span>Estimaciones</span>
-        </a>
-      </li>
-      <li class="relative" id="sidenavSecEx3">
-        <a
-          href="/profile"
-          class="flex items-center text-lg py-4 px-6 h-12 overflow-hidden text-white text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out cursor-pointer">
-          <span>Perfil</span>
-        </a>
-        <a class="flex items-center text-lg py-4 px-6 h-12 overflow-hidden text-white text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out cursor-pointer"
-          href="/gestion-usuario">
-          <span>Gestionar Usuarios</span>
-        </a>
-      </li>
-      <li class="relative" id="sidenavSecEx2">
-
       </li>
     </ul>
     <div class="text-center bottom-0 absolute w-full">
       <hr class="m-0" />
-      <a
-      href="/login"
+      <a href="/login"
         class="flex items-center text-lg py-4 px-6 h-12 overflow-hidden text-white text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out cursor-pointer">
         <span>Salir</span>
       </a>
@@ -58,6 +31,14 @@
 </template>
 
 <script lang="ts" setup>
+
+const sidevarItems = [
+  { title: "Inicio", href: "/" },
+  { title: "Presupuestos", href: "#!" },
+  { title: "Estimaciones", href: "#!" },
+  { title: "Perfil", href: "/profile" },
+  { title: "Gestionar Usuarios", href: "/gestion-usuario" }
+]
 
 interface Props {
   userName: string;

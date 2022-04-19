@@ -72,6 +72,11 @@ interface Props {
     userName: string;
 }
 
+interface logUser {
+    token: string;
+    userId: number;
+}
+
 defineProps<Props>();
 
 const correo = ref<string>(null!);
@@ -82,7 +87,13 @@ const usuario = ref<any>({});
 const loading = ref(false);
 const { VITE_FM_API_URL } = import.meta.env;
 const logUser = localStorage.getItem('FMUserAuth') as string;
-const data = (JSON.parse(logUser)) as { token: string, userId: number }
+
+if (!validLogUser(logUser)) {
+    router.push({ name: "login" });
+    return;
+}
+
+const data = (JSON.parse(logUser)) as logUser
 
 onMounted(async () => {
     const url: string | undefined = `${VITE_FM_API_URL}/user/${data.userId}`;
@@ -111,6 +122,13 @@ async function deletePerfil(id: number) {
         }
     }
     catch { }
+}
+
+function validLogUser(userJson: string) {
+    if (!userJson) return false;
+    const data = (JSON.parse(logUser)) as logUser
+    if (!data.userId) return false;
+    return true;
 }
 
 </script>

@@ -1,6 +1,5 @@
 <template>
     <div class="gestion_usuario-container w-screen h-screen">
-
         <div class="sidebar">
             <Sidebar userName="Yael" :imgProfile="imgProfile" />
         </div>
@@ -54,14 +53,18 @@
                                             class="inline-block mr-2 px-6 py-2.5 bg-blue-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-500 hover:shadow-lg focus:bg-blue-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-600 active:shadow-lg transition duration-150 ease-in-out">
                                             Editar
                                         </a>
-                                        <button type="button" @click="deleteUser(item.id, index)"
-                                            class="inline-block px-6 py-2.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out">
+                                        <button
+                                            class="inline-block px-6 py-2.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out"
+                                            type="button"
+                                            @click="() => { openModel(); userId = item.id; userIndex = index; }">
                                             Eliminar
                                         </button>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
+                        <Modal text="Desea eliminar este usuario?" btnColor="red"
+                            @confirm="deleteUser(userId, userIndex)" />
                     </div>
                 </div>
             </div>
@@ -74,8 +77,10 @@
 import Sidebar from "../components/Sidebar.vue";
 import { onMounted, ref } from "vue";
 import Axios from "axios"
-// import imgProfile from "../img/account_circle_black.svg";
-// import Modal from "../components/Modal.vue"
+import Modal from "../components/Modal.vue"
+
+const userId = ref(Number);
+const userIndex = ref(Number);
 
 interface Props {
     imgProfile: string;
@@ -86,7 +91,6 @@ defineProps<Props>();
 
 const usuarios = ref<Array<any>>([]);
 const { VITE_FM_API_URL } = import.meta.env;
-// const showModal = ref(false);
 
 onMounted(async () => {
     const url: string | undefined = `${VITE_FM_API_URL}/user`;
@@ -105,7 +109,12 @@ async function deleteUser(id: any, index: number) {
     }
     catch { }
 }
+
+function openModel() {
+    (document.querySelector('#popup-modal #btn-open') as HTMLElement).click();
+}
 </script>
+
 <style>
 .gestion_usuario-container {
     background-color: var(--secundary-color);

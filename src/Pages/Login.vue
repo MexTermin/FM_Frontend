@@ -1,10 +1,7 @@
 <template>
     <section class="h-full gradient-form bg-gray-200 md:h-screen">
         <div class="container py-12 px-6 h-full mx-auto">
-            <div v-if="loading">
-                <Loader />
-            </div>
-
+            <Loader v-if="loading" />
             <div class="flex justify-center items-center flex-wrap h-full g-6 text-gray-800">
                 <div class="xl:w-10/12">
                     <div class="block bg-white shadow-lg rounded-lg">
@@ -25,7 +22,7 @@
                                             <input v-model="contrasegna" type="password"
                                                 class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                                                 placeholder="Contraseña" required />
-                                            <span class="text-center text-rose-500" v-if="msg != null">{{ msg }}</span>
+                                            <span class="text-center text-rose-500" v-if="msg">{{ msg }}</span>
                                         </div>
                                         <div class="text-center pt-1 mb-12 pb-1">
                                             <button

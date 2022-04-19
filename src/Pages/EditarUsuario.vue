@@ -1,14 +1,12 @@
 <template>
     <section class="h-full gradient-form bg-gray-200 md:h-screen">
         <div class="sidebar">
-            <Sidebar userName="Yael" :imgProfile="imgProfile" @aaa="() => { }" />
+            <Sidebar userName="Yael" :imgProfile="imgProfile" />
         </div>
         <div class="container py-12 px-6 h-5/6 w-5/6 ml-auto">
             <div class="flex justify-center items-center flex-wrap h-full g-6 text-gray-800 ">
                 <div class="w-3/6">
-                    <div v-if="loading">
-                        <Loader />
-                    </div>
+                    <Loader v-if="loading" />
                     <div class="block bg-white shadow-lg rounded-lg w-full">
                         <div class="lg:flex lg:flex-wrap g-0 flex justify-center items-center">
                             <div class="lg:w-5/6 px-4 md:px-0">
@@ -18,10 +16,10 @@
                                         <h4 class="text-xl font-semibold mt-1 mb-12 pb-1">Editar usuario</h4>
                                     </div>
                                     <form>
-                                        <span class="text-center text-rose-500 mx-auto block" v-if="msg != null">
+                                        <span class="text-center text-rose-500 mx-auto block" v-if="msg">
                                             {{ msg }}
                                         </span>
-                                        <span class="text-center text-lime-600 mx-auto block" v-if="msgSuccess != null">
+                                        <span class="text-center text-lime-600 mx-auto block" v-if="msgSuccess">
                                             {{ msgSuccess }}
                                         </span>
                                         <div class="mb-4">
@@ -59,8 +57,7 @@
                                         <div class="text-center pt-1 mb-12 pb-1">
                                             <button v-on:click="ActualizarUsuario"
                                                 class="btn_fm-primary inline-block px-6 py-2.5 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full mb-3"
-                                                type="button" data-mdb-ripple="true" data-mdb-ripple-color="light"
-                                                >
+                                                type="button" data-mdb-ripple="true" data-mdb-ripple-color="light">
                                                 Actualizar
                                             </button>
                                         </div>
@@ -88,7 +85,6 @@ interface Props {
 }
 
 defineProps<Props>();
-defineEmits(["aaa"])
 
 const correo = ref<string>(null!);
 const nombres = ref<string>(null!);

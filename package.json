@@ -13,6 +13,7 @@
     "axios": "^0.26.1",
     "dotenv": "^16.0.0",
     "flowbite": "^1.4.2",
+    "json-web-token": "^3.2.0",
     "vee-validate": "^4.5.11",
     "vue": "^3.2.25",
     "vue-router": "^4.0.14"

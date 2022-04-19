@@ -10,10 +10,10 @@
                     <div class="block bg-white shadow-lg rounded-lg w-full">
                         <div class="lg:flex lg:flex-wrap g-0 flex justify-center items-center">
                             <div class="lg:w-5/6 px-4 md:px-0">
-                                <div class="md:p-8 md:mx-6">
+                                <div class="md:p-4 md:mx-6">
                                     <div class="text-center">
                                         <img class="mx-auto w-48" :src="imgProfile" alt="logo" />
-                                        <h4 class="text-xl font-semibold mt-1 mb-12 pb-1">Editar usuario</h4>
+                                        <h4 class="text-xl font-semibold mt-1 mb-6 pb-1">Editar usuario</h4>
                                     </div>
                                     <form>
                                         <span class="text-center text-rose-500 mx-auto block" v-if="msg">
@@ -60,6 +60,11 @@
                                                 type="button" data-mdb-ripple="true" data-mdb-ripple-color="light">
                                                 Actualizar
                                             </button>
+                                            <button @click='router.push({ name: "GestionUsuario" })'
+                                                class="bg-red-800 inline-block px-6 py-2.5 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full mb-3"
+                                                type="button" data-mdb-ripple="true" data-mdb-ripple-color="light">
+                                                Cancelar
+                                            </button>
                                         </div>
                                     </form>
                                 </div>
@@ -78,6 +83,7 @@ import imgProfile from "../img/account_circle_black.svg";
 import Loader from "../components/Spinner.vue"
 import router from "../Routers/Router"
 import Axios from "axios"
+import "../types/TypesApi"
 import { onMounted, ref } from "vue";
 
 interface Props {
@@ -129,18 +135,27 @@ async function ActualizarUsuario() {
     }
 
     loading.value = true
-    try {
-        let result = await Axios.put(url, body)
-        if (result?.status == 200) {
-            msg.value = null!;
-            msgSuccess.value = "Usuario actualizado correctamente"
-            router.push("/gestion-usuario")
 
+    const data = await fetch(url, {
+        body: JSON.stringify(body),
+        method: "PUT",
+        headers: {
+            'Content-Type': 'application/json',
         }
+    })
+
+    const result = (await data.json()) as DataResponse;
+    if (data.ok) {
+        msg.value = null!;
+        msgSuccess.value = "Usuario actualizado correctamente"
+        router.push({ name: "GestionUsuario" })
+
+    } else {
+        if (result.error) msg.value = result.message;
+        else msg.value = "No se ha podido actualizar el usuario";
     }
-    catch {
-        msg.value = "No se ha podido actualizar el usuario";
-    }
+
+
     loading.value = false
 }
 </script>

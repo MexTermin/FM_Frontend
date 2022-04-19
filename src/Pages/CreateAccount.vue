@@ -100,7 +100,7 @@ async function CrearUsuario() {
         "pass": "1234",
         "lastname": apellidos.value,
         "name": nombres.value,
-        "id_rol": isAdult.value ? "2" : "1"
+        "id_rol": !isAdult.value ? "2" : "1"
 
     }
     if (!correo.value || !apellidos.value || !nombres.value) {
@@ -131,7 +131,7 @@ async function CrearUsuario() {
         msg.value = null!;
         msgSuccess.value = "Usuario creado correctamente";
         showAlert.value = true;
-        Router.push("/gestion-usuario");
+        Router.push({ name: "GestionUsuario" });
 
     } else {
         if (result.error) msg.value = result.message;

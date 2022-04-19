@@ -4,6 +4,7 @@ import Login from "../Pages/Login.vue";
 import CreateAccount from "../Pages/CreateAccount.vue";
 import GestionUsuario from "../Pages/GetionUsuario.vue";
 import EditarUsuario from "../Pages/EditarUsuario.vue";
+import Profile from "../Pages/Profile.vue";
 
 import imgLogin from "../img/account_circle_black.svg";
 import imgProfile from "../img/account_circle_black.svg";
@@ -16,6 +17,7 @@ const router = createRouter({
     { path: "/login", component: Login, props: { imgLogin }, name: "login" },
     { path: "/create", component: CreateAccount, props: { imgLogin } },
     { path: "/gestion-usuario", component: GestionUsuario, props: { imgProfile, userName: "User" }, name:"GestionUsuario" },
+    { path: "/profile", component: Profile, props: { imgProfile, userName: "User" }, name:"Profile" },
     { path: "/editar-usuario", component: EditarUsuario, props: { imgLogin, imgProfile, userName: "User" } },
   ],
 });

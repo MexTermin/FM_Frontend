@@ -3,6 +3,7 @@
         <div class="sidebar">
             <Sidebar userName="Yael" :imgProfile="imgProfile" />
         </div>
+        <Modal text="Desea eliminar este usuario?" btnColor="red" @confirm="deleteUser(userId, userIndex)" />
         <div class="flex flex-col w-5/6 ml-auto">
             <div class="overflow-x-auto mx-1">
                 <h3 class="text-3xl	 text-center mt-4">Gestion de usuarios</h3>
@@ -55,16 +56,13 @@
                                         </a>
                                         <button
                                             class="inline-block px-6 py-2.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out"
-                                            type="button"
-                                            @click="() => { openModel(); userId = item.id; userIndex = index; }">
+                                            type="button" v-on:click='openModal(item.id, index)'>
                                             Eliminar
                                         </button>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
-                        <Modal text="Desea eliminar este usuario?" btnColor="red"
-                            @confirm="deleteUser(userId, userIndex)" />
                     </div>
                 </div>
             </div>
@@ -79,8 +77,6 @@ import { onMounted, ref } from "vue";
 import Axios from "axios"
 import Modal from "../components/Modal.vue"
 
-const userId = ref(Number);
-const userIndex = ref(Number);
 
 interface Props {
     imgProfile: string;
@@ -89,6 +85,8 @@ interface Props {
 
 defineProps<Props>();
 
+const userId = ref<number>(0);
+const userIndex = ref<number>(0);
 const usuarios = ref<Array<any>>([]);
 const { VITE_FM_API_URL } = import.meta.env;
 
@@ -110,7 +108,10 @@ async function deleteUser(id: any, index: number) {
     catch { }
 }
 
-function openModel() {
+function openModal(id: number, index: number) {
+    userId.value = id;
+    userIndex.value = index;
+    console.log(userId.value);
     (document.querySelector('#popup-modal #btn-open') as HTMLElement).click();
 }
 </script>

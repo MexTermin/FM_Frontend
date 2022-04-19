@@ -53,6 +53,7 @@ import Axios from "axios"
 import Loader from "../components/Spinner.vue"
 import router from "../Routers/Router"
 import { ref } from "vue";
+// import jwt from 'json-web-token';
 
 interface Props {
     imgLogin: string;
@@ -81,6 +82,8 @@ async function login() {
     }
     if (user?.status == 200) {
         msg.value = null!;
+        const token: string = user.data.body;
+        localStorage.setItem('FMUserAuth', JSON.stringify(token));
         router.push("/")
     }
     loading.value = false

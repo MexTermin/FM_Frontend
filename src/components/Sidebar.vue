@@ -33,6 +33,7 @@
       </li>
       <li class="relative" id="sidenavSecEx3">
         <a
+          href="/profile"
           class="flex items-center text-lg py-4 px-6 h-12 overflow-hidden text-white text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out cursor-pointer">
           <span>Perfil</span>
         </a>

@@ -71,7 +71,7 @@ import AlertWarning from "../components/CustomAlerts/Warning.vue";
 import { ref } from "vue";
 import "../types/TypesApi"
 import { computed } from "@vue/reactivity";
-import { validateEmail } from "../helpers/utils"
+import { validateEmail } from "../Utils/utils"
 // import { Field, Form, ErrorMessage } from 'vee-validate';
 
 const correo = ref<string>(null!);

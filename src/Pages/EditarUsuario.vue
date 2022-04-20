@@ -105,7 +105,7 @@ const { VITE_FM_API_URL } = import.meta.env;
 
 onMounted(async () => {
     const urlParams = new URLSearchParams(window.location.search);
-    const url: string | undefined = `${VITE_FM_API_URL}/user/${urlParams.get("id")}`;
+    const url: string = `${VITE_FM_API_URL}/user/${urlParams.get("id")}`;
 
     let result = await Axios.get(url);
 
@@ -118,7 +118,7 @@ onMounted(async () => {
 });
 
 async function ActualizarUsuario() {
-    const url: string | undefined = `${VITE_FM_API_URL}/user`;
+    const url: string = `${VITE_FM_API_URL}/user`;
     msgSuccess.value = null!;
     const body = {
         "id": id.value,

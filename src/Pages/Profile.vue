@@ -90,7 +90,6 @@ const logUser = localStorage.getItem('FMUserAuth') as string;
 
 if (!validLogUser(logUser)) {
     router.push({ name: "login" });
-    return;
 }
 
 const data = (JSON.parse(logUser)) as logUser

@@ -1,12 +1,4 @@
-<script lang="ts">
-  export default {
-    name: "App",
-    components: {},
-    data() {
-      return {};
-    },
-    computed: {},
-  };
+<script lang="ts" setup>
 </script>
 
 <template>

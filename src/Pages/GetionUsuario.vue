@@ -99,7 +99,6 @@ onMounted(async () => {
 async function deleteUser(id: any, index: number) {
     const url: string | undefined = `${VITE_FM_API_URL}/user?idEntity=${id}`;
     try {
-        console.log(url);
         let result = await Axios.delete(url)
         if (result?.status == 200) {
             usuarios.value.splice(index, 1);
@@ -111,7 +110,6 @@ async function deleteUser(id: any, index: number) {
 function openModal(id: number, index: number) {
     userId.value = id;
     userIndex.value = index;
-    console.log(userId.value);
     (document.querySelector('#popup-modal #btn-open') as HTMLElement).click();
 }
 </script>

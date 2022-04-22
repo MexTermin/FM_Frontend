@@ -18,19 +18,19 @@
                                         </div>
                                         <form>
                                             <div class="mb-4">
-                                                <input v-model="correo" type="email"
+                                                <input v-model="email" type="email"
                                                     class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                                                    id="correo" placeholder="Correo" name="correo" disabled />
+                                                    id="email" placeholder="Correo" name="email" disabled />
                                             </div>
                                             <div class="mb-4">
-                                                <input v-model="nombres" type="text"
+                                                <input v-model="name" type="text"
                                                     class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                                                    id="nombres" placeholder="Nombres" name="nombres" disabled />
+                                                    id="name" placeholder="Nombres" name="name" disabled />
                                             </div>
                                             <div class="mb-4">
-                                                <input v-model="apellidos" type="text"
+                                                <input v-model="lastname" type="text"
                                                     class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                                                    id="apellidos" placeholder="Apellidos" name="apellidos" disabled />
+                                                    id="lastname" placeholder="Apellidos" name="apellidos" disabled />
                                             </div>
                                             <div class="mb-4">
                                                 <input v-model="rol" type="text"
@@ -45,7 +45,7 @@
                                                     Eliminar
                                                 </button>
                                                 <Modal :show="showModal" text="¿Deseas eliminar tu perfil?"
-                                                    btnColor="red" @confirm="deletePerfil(data.userId)"
+                                                    btnColor="red" @confirm="deletePerfil(logUserData.userId)"
                                                     @close="showModal = false" />
                                             </div>
                                         </form>
@@ -80,11 +80,11 @@ interface logUser {
 
 defineProps<Props>();
 
-const correo = ref<string>(null!);
-const nombres = ref<string>(null!);
-const apellidos = ref<string>(null!);
+const email = ref<string>(null!);
+const name = ref<string>(null!);
+const lastname = ref<string>(null!);
 const rol = ref<string>(null!);
-const usuario = ref<any>({});
+const user = ref<any>({});
 const loading = ref(false);
 const { VITE_FM_API_URL } = import.meta.env;
 const logUser = localStorage.getItem('FMUserAuth') as string;
@@ -94,22 +94,22 @@ if (!validLogUser(logUser)) {
     router.push({ name: "login" });
 }
 
-const data = (JSON.parse(logUser)) as logUser
+const logUserData = (JSON.parse(logUser)) as logUser
 
 onMounted(async () => {
-    const url: string | undefined = `${VITE_FM_API_URL}/user/${data.userId}`;
+    const url: string | undefined = `${VITE_FM_API_URL}/user/${logUserData.userId}`;
 
-    let user = await Axios.get(url);
-    if (!user.data.body) {
+    let data = await Axios.get(url);
+    if (!data.data.body) {
         router.push({ name: "login" });
         return;
     }
-    usuario.value = user.data.body;
+    user.value = data.data.body;
 
-    correo.value = usuario.value.email;
-    nombres.value = usuario.value.name;
-    apellidos.value = usuario.value.lastname;
-    rol.value = usuario.value.rol.rol_type;
+    email.value = user.value.email;
+    name.value = user.value.name;
+    lastname.value = user.value.lastname;
+    rol.value = user.value.rol.rol_type;
 
 })
 

@@ -3,9 +3,11 @@
         <div class="sidebar">
             <Sidebar userName="Yael" :imgProfile="imgProfile" />
         </div>
+        <SuccessAlert :text="msg" v-if="showSuccessAlert" @close="showSuccessAlert = false" />
+        <WarnignAlert :text="msg" v-if="showErrorAlert" @close="showErrorAlert = false" />
+        <Loader v-if="loading" />
         <Modal :show="showModal" text="¿Deseas eliminar este usuario?" btnColor="red"
-            @confirm="deleteUser(userId, userIndex)"
-            @close="showModal = false" />
+            @confirm="deleteUser(userId, userIndex)" @close="showModal = false" />
         <div class="flex flex-col w-5/6 ml-auto">
             <div class="overflow-x-auto mx-1">
                 <h3 class="text-3xl	 text-center mt-4">Gestion de usuarios</h3>
@@ -74,12 +76,16 @@
 </template>
 
 <script lang="ts" setup>
+// Imports
 import Sidebar from "../components/Sidebar.vue";
+import SuccessAlert from "../components/CustomAlerts/Success.vue"
+import WarnignAlert from "../components/CustomAlerts/Success.vue"
 import { onMounted, ref } from "vue";
 import Axios from "axios"
 import Modal from "../components/Modal.vue"
+import Loader from "../components/Spinner.vue"
 
-
+// Props
 interface Props {
     imgProfile: string;
     userName: string;
@@ -87,26 +93,43 @@ interface Props {
 
 defineProps<Props>();
 
+// Constans
 const userId = ref<number>(0);
 const userIndex = ref<number>(0);
 const usuarios = ref<Array<any>>([]);
+const loading = ref(false);
+const showSuccessAlert = ref(false);
+const showErrorAlert = ref(false);
+const msg = ref("");
 const { VITE_FM_API_URL } = import.meta.env;
 
+// Functions
 onMounted(async () => {
+    loading.value = true;
     const url: string | undefined = `${VITE_FM_API_URL}/user`;
     let users = await Axios.get(url);
     usuarios.value = users.data.body;
+    loading.value = false;
 })
 
 async function deleteUser(id: any, index: number) {
+    loading.value = true;
     const url: string | undefined = `${VITE_FM_API_URL}/user?idEntity=${id}`;
     try {
         let result = await Axios.delete(url)
         if (result?.status == 200) {
             usuarios.value.splice(index, 1);
+            msg.value = "Usuario eliminado correctamente";
+            showSuccessAlert.value = true;
+            showErrorAlert.value = false;
         }
     }
-    catch { }
+    catch {
+        msg.value = "No se ha podido eliminar el usuario";
+        showSuccessAlert.value = false;
+        showErrorAlert.value = true;
+    }
+    loading.value = false;
 }
 
 const showModal = ref(false);

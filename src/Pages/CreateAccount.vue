@@ -3,15 +3,15 @@
         <div class="sidebar">
             <Sidebar userName="Yael" :imgProfile="imgProfile" />
         </div>
-        <div class="container py-5 px-6 h-full w-5/6 ml-auto">
+        <div class="container py-3 px-2 h-full w-5/6 ml-auto">
             <div class="flex justify-center items-center flex-wrap h-full g-6 text-gray-800 ">
-                <div class="sm:w-10/12">
+                <div class="sm:w-6/12">
                     <Loader v-if="isLoading" />
                     <AlertWarning :text="msg" v-if="showAlert" @close="showAlert = false" />
                     <div class="block bg-white shadow-lg rounded-lg ">
                         <div class="lg:flex lg:flex-wrap g-0 flex justify-center items-center">
-                            <div class="lg:w-6/12 px-4 md:px-0">
-                                <div class="md:p-12 md:mx-6">
+                            <div class="lg:w-11/12 px-4 md:px-0">
+                                <div class="md:p-5 md:mx-6">
                                     <div class="text-center">
                                         <img class="mx-auto w-48" :src="imgLogin" alt="logo" />
                                         <h4 class="text-xl font-semibold mt-1 mb-12 pb-1">Crear usuario</h4>
@@ -55,6 +55,11 @@
                                                 type="button" data-mdb-ripple="true" data-mdb-ripple-color="light">
                                                 guardar
                                             </button>
+                                            <button @click='Router.push({ name: "GestionUsuario" })'
+                                                class="bg-red-800 inline-block px-6 py-2.5 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full mb-3"
+                                                type="button" data-mdb-ripple="true" data-mdb-ripple-color="light">
+                                                Cancelar
+                                            </button>
                                         </div>
                                     </form>
                                 </div>
@@ -72,7 +77,7 @@
 import Sidebar from "../components/Sidebar.vue";
 import imgProfile from "../img/account_circle_black.svg";
 import Loader from "../components/Spinner.vue";
-import Router from "../Routers/Router";
+import Router from "../Routers/Router"
 import AlertWarning from "../components/CustomAlerts/Warning.vue";
 import { ref } from "vue";
 import "../types/TypesApi"

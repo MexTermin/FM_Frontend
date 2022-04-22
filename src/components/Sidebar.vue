@@ -16,13 +16,13 @@
       <li class="relative" v-for="(item, index) in sidevarItems" :key="index">
         <a class="flex items-center text-lg py-4 px-6 h-12 overflow-hidden text-white text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out"
           :href="item.href">
-          <span>{{item.title}}</span>
+          <span>{{ item.title }}</span>
         </a>
       </li>
     </ul>
     <div class="text-center bottom-0 absolute w-full">
       <hr class="m-0" />
-      <a href="/login"
+      <a href="/login" @click="LogoutFromStorage"
         class="flex items-center text-lg py-4 px-6 h-12 overflow-hidden text-white text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out cursor-pointer">
         <span>Salir</span>
       </a>
@@ -46,6 +46,10 @@ interface Props {
 }
 
 defineProps<Props>();
+
+function LogoutFromStorage() {
+  localStorage.removeItem('FMUserAuth');
+}
 
 </script>
 

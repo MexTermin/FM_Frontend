@@ -1,5 +1,5 @@
 <template>
-    <section class="h-full gradient-form bg-gray-200 md:h-screen">
+    <section class="h-screen gradient-form bg-gray-200 md:h-screen">
         <div class="sidebar">
             <Sidebar userName="Yael" :imgProfile="imgProfile" />
         </div>
@@ -60,7 +60,7 @@
                                                 type="button" data-mdb-ripple="true" data-mdb-ripple-color="light">
                                                 Actualizar
                                             </button>
-                                            <button @click='router.push({ name: "GestionUsuario" })'
+                                            <button @click='Router.push({ name: "GestionUsuario" })'
                                                 class="bg-red-800 inline-block px-6 py-2.5 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full mb-3"
                                                 type="button" data-mdb-ripple="true" data-mdb-ripple-color="light">
                                                 Cancelar
@@ -78,20 +78,23 @@
 </template>
 
 <script lang="ts" setup>
+// Imports
 import Sidebar from "../components/Sidebar.vue";
 import imgProfile from "../img/account_circle_black.svg";
 import Loader from "../components/Spinner.vue"
-import router from "../Routers/Router"
+import Router from "../Routers/Router"
 import Axios from "axios"
 import "../types/TypesApi"
 import { onMounted, ref } from "vue";
 
+// Props
 interface Props {
     imgLogin: string;
 }
 
 defineProps<Props>();
 
+// Contants
 const correo = ref<string>(null!);
 const nombres = ref<string>(null!);
 const apellidos = ref<string>(null!);
@@ -103,6 +106,7 @@ const id = ref<number>(null!);
 const isAdult = ref(false);
 const { VITE_FM_API_URL } = import.meta.env;
 
+// Functions
 onMounted(async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const url: string = `${VITE_FM_API_URL}/user/${urlParams.get("id")}`;
@@ -148,7 +152,7 @@ async function ActualizarUsuario() {
     if (data.ok) {
         msg.value = null!;
         msgSuccess.value = "Usuario actualizado correctamente"
-        router.push({ name: "GestionUsuario" })
+        Router.push({ name: "GestionUsuario" })
 
     } else {
         if (result.error) msg.value = result.message;

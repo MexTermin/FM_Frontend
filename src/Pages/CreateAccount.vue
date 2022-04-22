@@ -1,11 +1,11 @@
 <template>
-    <section class="h-full gradient-form bg-gray-200 md:h-screen">
+    <section class="h-screen gradient-form bg-gray-200 md:h-screen">
         <div class="sidebar">
             <Sidebar userName="Yael" :imgProfile="imgProfile" />
         </div>
-        <div class="container py-12 px-6 h-full w-5/6 ml-auto">
-            <div class="flex justify-center items-center flex-wrap h-full  g-6 text-gray-800 ">
-                <div class="xl:w-10/12">
+        <div class="container py-5 px-6 h-full w-5/6 ml-auto">
+            <div class="flex justify-center items-center flex-wrap h-full g-6 text-gray-800 ">
+                <div class="sm:w-10/12">
                     <Loader v-if="isLoading" />
                     <AlertWarning :text="msg" v-if="showAlert" @close="showAlert = false" />
                     <div class="block bg-white shadow-lg rounded-lg ">
@@ -18,19 +18,19 @@
                                     </div>
                                     <form>
                                         <div class="mb-4">
-                                            <input v-model="correo" type="email" v-on:change="emailIsValid"
+                                            <input v-model="email" type="email" v-on:change="emailIsValid"
                                                 class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                                                id="correo" placeholder="Correo" name="correo" />
+                                                id="email" placeholder="Correo" name="email" />
                                         </div>
                                         <div class="mb-4">
-                                            <input v-model="nombres" type="text"
+                                            <input v-model="name" type="text"
                                                 class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                                                id="nombres" placeholder="Nombres" name="nombres" />
+                                                id="name" placeholder="Nombres" name="name" />
                                         </div>
                                         <div class="mb-4">
-                                            <input v-model="apellidos" type="text"
+                                            <input v-model="lastname" type="text"
                                                 class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                                                id="apellidos" placeholder="Apellidos" name="apellidos" />
+                                                id="lastname" placeholder="Apellidos" name="lastname" />
                                         </div>
                                         <div class="mb-4 w-100 d-flex justify-center ">
                                             <div class="inline-block w-fit mr-4">
@@ -44,8 +44,13 @@
                                                 <label for="mayor">Adulto</label>
                                             </div>
                                         </div>
+                                        <div class="mb-4">
+                                            <input v-model="pass" type="password"
+                                                class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                                                id="pass" placeholder="Contraseña" name="pass" />
+                                        </div>
                                         <div class="text-center pt-1 mb-12 pb-1">
-                                            <button v-on:click="CrearUsuario" id="btn-guardar"
+                                            <button v-on:click="CreateUser" id="btn-guardar"
                                                 class="inline-block px-6 py-2.5 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full mb-3"
                                                 type="button" data-mdb-ripple="true" data-mdb-ripple-color="light">
                                                 guardar
@@ -63,6 +68,7 @@
 </template>
 
 <script lang="ts" setup>
+// Imports
 import Sidebar from "../components/Sidebar.vue";
 import imgProfile from "../img/account_circle_black.svg";
 import Loader from "../components/Spinner.vue";
@@ -72,44 +78,46 @@ import { ref } from "vue";
 import "../types/TypesApi"
 import { computed } from "@vue/reactivity";
 import { validateEmail } from "../Utils/utils"
-// import { Field, Form, ErrorMessage } from 'vee-validate';
+import { invalidEmail } from "../Utils/constants"
 
-const correo = ref<string>(null!);
-const nombres = ref<string>(null!);
-const apellidos = ref<string>(null!);
+// Constans(Properties)
+const email = ref<string>(null!);
+const name = ref<string>(null!);
+const lastname = ref<string>(null!);
+const pass = ref<string>(null!)
 const loading = ref(false);
 const msg = ref<string>(null!);
-const msgSuccess = ref<string>(null!);
 const isAdult = ref(false);
 const showAlert = ref(false);
 const { VITE_FM_API_URL } = import.meta.env;
+const isLoading = computed(() => loading.value === true);
 
+// Props
 interface Props {
     imgLogin: string;
 }
 
-const isLoading = computed(() => loading.value === true);
-
 defineProps<Props>();
 
-async function CrearUsuario() {
+// Funnctions
+
+async function CreateUser() {
     const url: string | undefined = `${VITE_FM_API_URL}/user`;
-    msgSuccess.value = null!;
     const body = {
-        "email": correo.value,
-        "pass": "1234",
-        "lastname": apellidos.value,
-        "name": nombres.value,
+        "email": email.value,
+        "pass": pass.value,
+        "lastname": lastname.value,
+        "name": name.value,
         "id_rol": !isAdult.value ? "2" : "1"
 
     }
-    if (!correo.value || !apellidos.value || !nombres.value) {
+    if (!email.value || !lastname.value || !name.value || !pass.value) {
         showAlert.value = true;
         msg.value = "Llene todos los campos correctamente";
         return;
     }
 
-    if(!validateEmail(correo.value)) return;
+    if (!validateEmail(email.value)) return;
 
     loading.value = true;
 
@@ -124,12 +132,11 @@ async function CrearUsuario() {
     const result = (await data.json()) as DataResponse;
 
     if (data.ok) {
-        correo.value = null!;
-        apellidos.value = null!;
-        nombres.value = null!;
+        email.value = null!;
+        lastname.value = null!;
+        name.value = null!;
         isAdult.value = false;
         msg.value = null!;
-        msgSuccess.value = "Usuario creado correctamente";
         showAlert.value = true;
         Router.push({ name: "GestionUsuario" });
 
@@ -143,8 +150,8 @@ async function CrearUsuario() {
 }
 
 function emailIsValid() {
-    if (!validateEmail(correo.value)) {
-        msg.value = 'Por favor ingrese un correo valido';
+    if (!validateEmail(email.value)) {
+        msg.value = invalidEmail;
         showAlert.value = true;
         return false;
     } else {

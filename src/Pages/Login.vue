@@ -1,9 +1,10 @@
 <template>
-    <section class="h-full gradient-form bg-gray-200 md:h-screen">
+    <section class="h-screen gradient-form bg-gray-200 md:h-screen">
         <div class="container py-12 px-6 h-full mx-auto">
             <Loader v-if="loading" />
+            <AlertWarning :text="msg" v-if="showAlert" @close="showAlert = false" />
             <div class="flex justify-center items-center flex-wrap h-full g-6 text-gray-800">
-                <div class="xl:w-10/12">
+                <div class="sm:w-7/12 md:w-10/12">
                     <div class="block bg-white shadow-lg rounded-lg">
                         <div class="lg:flex lg:flex-wrap g-0">
                             <div class="lg:w-6/12 px-4 md:px-0">
@@ -14,15 +15,14 @@
                                     </div>
                                     <form>
                                         <div class="mb-4">
-                                            <input v-model="correo" type="text"
+                                            <input v-model="email" type="text"
                                                 class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                                                 placeholder="Correo">
                                         </div>
                                         <div class="mb-4">
-                                            <input v-model="contrasegna" type="password"
+                                            <input v-model="pass" type="password"
                                                 class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                                                 placeholder="Contraseña" required />
-                                            <span class="text-center text-rose-500" v-if="msg">{{ msg }}</span>
                                         </div>
                                         <div class="text-center pt-1 mb-12 pb-1">
                                             <button
@@ -49,36 +49,53 @@
 </template>
 
 <script lang="ts" setup>
+// Imports
 import Axios from "axios"
 import Loader from "../components/Spinner.vue"
 import router from "../Routers/Router"
+import AlertWarning from "../components/CustomAlerts/Warning.vue";
 import { ref } from "vue";
-// import jwt from 'json-web-token';
+import { validateEmail } from "../Utils/utils"
+import { invalidEmail } from "../Utils/constants"
 
+// Props
 interface Props {
     imgLogin: string;
 }
 
 defineProps<Props>();
 
+// Contans
 const { VITE_FM_API_URL } = import.meta.env;
-const correo = ref("");
-const contrasegna = ref("");
+const email = ref("");
+const pass = ref("");
 const loading = ref(false);
 const msg = ref<string>(null!);
+const showAlert = ref(false);
 const url: string = `${VITE_FM_API_URL}/user/login`;
 
+// Functions
 async function login() {
+
+    if (!validateEmail(email.value)) {
+        msg.value = invalidEmail
+        showAlert.value = true;
+        return;
+    }
+
     let user;
     const body = {
-        "email": correo.value,
-        "pass": contrasegna.value
+        "email": email.value,
+        "pass": pass.value
     }
     loading.value = true
     try {
         user = await Axios.post(url, body);
     } catch {
         msg.value = "Usuario o contraseña invalido";
+        showAlert.value = true;
+        loading.value = false
+        return;
     }
     if (user?.status == 200) {
         msg.value = null!;

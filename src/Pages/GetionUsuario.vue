@@ -3,7 +3,9 @@
         <div class="sidebar">
             <Sidebar userName="Yael" :imgProfile="imgProfile" />
         </div>
-        <Modal text="¿Deseas eliminar este usuario?" btnColor="red" @confirm="deleteUser(userId, userIndex)" />
+        <Modal :show="showModal" text="¿Deseas eliminar este usuario?" btnColor="red"
+            @confirm="deleteUser(userId, userIndex)"
+            @close="showModal = false" />
         <div class="flex flex-col w-5/6 ml-auto">
             <div class="overflow-x-auto mx-1">
                 <h3 class="text-3xl	 text-center mt-4">Gestion de usuarios</h3>
@@ -107,11 +109,14 @@ async function deleteUser(id: any, index: number) {
     catch { }
 }
 
+const showModal = ref(false);
+
 function openModal(id: number, index: number) {
     userId.value = id;
     userIndex.value = index;
-    (document.querySelector('#popup-modal #btn-open') as HTMLElement).click();
+    showModal.value = true;
 }
+
 </script>
 
 <style>

@@ -1,12 +1,12 @@
 <template>
   <div class="sidenav-container w-1/6 h-full shadow-md absolute" id="sidenav">
     <div class="pt-4 pb-2 px-6">
-      <a href="#!">
-        <div class="flex items-center">
+      <a href="/">
+        <div class="flex items-center flex-col">
           <div class="shrink-0">
             <img :src="imgProfile" class="rounded-full w-12" alt="Avatar" />
           </div>
-          <div class="grow ml-3">
+          <div class="grow text-center">
             <p class="text-xl font-semibold text-white">{{ userName }}</p>
           </div>
         </div>

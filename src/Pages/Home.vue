@@ -5,18 +5,31 @@
 </template>
 
 <script lang="ts" setup>
+// Imports
 import Sidebar from "../components/Sidebar.vue";
+import { getUserInfo } from "../Utils/utils"
+import { ref, onMounted } from "vue"
 
+// Props
 interface Props {
   imgProfile: string;
-  userName: string;
 }
-
 defineProps<Props>();
+
+// Contants
+const user = ref<any>();
+const userName = ref("");
+
+// Functions
+onMounted(async () => {
+  user.value = (await getUserInfo()).body;
+  userName.value = user.value.name;
+})
+
 </script>
 
 <style>
-.home-container{
-  background-color:var(--secundary-color);
+.home-container {
+  background-color: var(--secundary-color);
 }
 </style>

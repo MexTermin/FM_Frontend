@@ -2,7 +2,7 @@
     <div class="profile-container w-screen h-screen">
         <section class="h-full gradient-form bg-gray-200 md:h-screen">
             <div class="sidebar">
-                <Sidebar userName="Yael" :imgProfile="imgProfile" />
+                <Sidebar :userName="name" :imgProfile="imgProfile" />
             </div>
             <div class="container py-12 px-6 h-5/6 w-5/6 ml-auto">
                 <div class="flex justify-center items-center flex-wrap h-full g-6 text-gray-800 ">
@@ -71,7 +71,6 @@ import { getUserToken } from "../Utils/utils"
 
 interface Props {
     imgProfile: string;
-    userName: string;
 }
 
 defineProps<Props>();

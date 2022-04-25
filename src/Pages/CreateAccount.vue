@@ -1,7 +1,7 @@
 <template>
     <section class="h-screen gradient-form bg-gray-200 md:h-screen">
         <div class="sidebar">
-            <Sidebar userName="Yael" :imgProfile="imgProfile" />
+            <Sidebar :userName="userName" :imgProfile="imgProfile" />
         </div>
         <div class="container py-3 px-2 h-full w-5/6 ml-auto">
             <div class="flex justify-center items-center flex-wrap h-full g-6 text-gray-800 ">
@@ -55,7 +55,7 @@
                                                 type="button" data-mdb-ripple="true" data-mdb-ripple-color="light">
                                                 guardar
                                             </button>
-                                            <button @click='Router.push({ name: "GestionUsuario" })'
+                                            <button @click='Router.push({ name: "UserManagement" })'
                                                 class="bg-red-800 inline-block px-6 py-2.5 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full mb-3"
                                                 type="button" data-mdb-ripple="true" data-mdb-ripple-color="light">
                                                 Cancelar
@@ -79,11 +79,11 @@ import imgProfile from "../img/account_circle_black.svg";
 import Loader from "../components/Spinner.vue";
 import Router from "../Routers/Router"
 import AlertWarning from "../components/CustomAlerts/Warning.vue";
-import { ref } from "vue";
-import "../types/TypesApi"
+import { ref, onMounted } from "vue";
 import { computed } from "@vue/reactivity";
-import { validateEmail } from "../Utils/utils"
+import { validateEmail, getUserInfo } from "../Utils/utils"
 import { invalidEmail } from "../Utils/constants"
+import "../types/TypesApi"
 
 // Constans(Properties)
 const email = ref<string>(null!);
@@ -96,6 +96,8 @@ const isAdult = ref(false);
 const showAlert = ref(false);
 const { VITE_FM_API_URL } = import.meta.env;
 const isLoading = computed(() => loading.value === true);
+const user = ref<any>();
+const userName = ref("");
 
 // Props
 interface Props {
@@ -105,6 +107,10 @@ interface Props {
 defineProps<Props>();
 
 // Funnctions
+onMounted(async () => {
+  user.value = (await getUserInfo()).body;
+  userName.value = user.value.name;
+})
 
 async function CreateUser() {
     const url: string | undefined = `${VITE_FM_API_URL}/user`;
@@ -143,7 +149,7 @@ async function CreateUser() {
         isAdult.value = false;
         msg.value = null!;
         showAlert.value = true;
-        Router.push({ name: "GestionUsuario" });
+        Router.push({ name: "UserManagement" });
 
     } else {
         if (result.error) msg.value = result.message;

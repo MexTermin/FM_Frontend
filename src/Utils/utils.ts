@@ -1,11 +1,12 @@
 import Axios from "axios";
 
+const { VITE_FM_API_URL } = import.meta.env;
+
 export function validateEmail(str: string) {
   return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(str);
 }
 
 export async function isAuthenticated() {
-  const { VITE_FM_API_URL } = import.meta.env;
   const url: string = `${VITE_FM_API_URL}/token/valid`;
 
   const userStorageData = getUserToken();
@@ -31,4 +32,19 @@ export function getUserToken() {
   return JSON.parse(userStorage);
 }
 
-export function getUserInfo() {}
+export async function getUserInfo() {
+  const url: string = `${VITE_FM_API_URL}/user/token`;
+  const userStorageData = getUserToken();
+
+  try {
+    let data = await Axios.get(url, {
+      headers: { Authorization: `Bearer ${userStorageData.token}` },
+    });
+    if (data.status === 200) {
+      return data.data;
+    }
+
+  } catch (e: unknown) {
+    return null;
+  }
+}

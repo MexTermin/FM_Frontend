@@ -1,7 +1,7 @@
 <template>
     <div class="gestion_usuario-container w-screen h-screen">
         <div class="sidebar">
-            <Sidebar userName="Yael" :imgProfile="imgProfile" />
+            <Sidebar :userName="userName" :imgProfile="imgProfile" />
         </div>
         <SuccessAlert :text="msg" v-if="showSuccessAlert" @close="showSuccessAlert = false" />
         <WarnignAlert :text="msg" v-if="showErrorAlert" @close="showErrorAlert = false" />
@@ -80,15 +80,15 @@
 import Sidebar from "../components/Sidebar.vue";
 import SuccessAlert from "../components/CustomAlerts/Success.vue"
 import WarnignAlert from "../components/CustomAlerts/Success.vue"
-import { onMounted, ref } from "vue";
 import Axios from "axios"
 import Modal from "../components/Modal.vue"
 import Loader from "../components/Spinner.vue"
+import { getUserInfo } from "../Utils/utils"
+import { onMounted, ref } from "vue";
 
 // Props
 interface Props {
     imgProfile: string;
-    userName: string;
 }
 
 defineProps<Props>();
@@ -102,6 +102,8 @@ const showSuccessAlert = ref(false);
 const showErrorAlert = ref(false);
 const msg = ref("");
 const { VITE_FM_API_URL } = import.meta.env;
+const user = ref<any>();
+const userName = ref("");
 
 // Functions
 onMounted(async () => {
@@ -109,6 +111,10 @@ onMounted(async () => {
     const url: string | undefined = `${VITE_FM_API_URL}/user`;
     let users = await Axios.get(url);
     usuarios.value = users.data.body;
+
+    user.value = (await getUserInfo()).body;
+    userName.value = user.value.name;
+
     loading.value = false;
 })
 

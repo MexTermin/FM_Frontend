@@ -29,7 +29,7 @@
                                                 class="btn_fm-primary inline-block px-6 py-2.5 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full mb-3"
                                                 type="button" data-mdb-ripple="true" data-mdb-ripple-color="light"
                                                 v-on:click="login">
-                                                Inicias sección
+                                                Iniciar sección
                                             </button>
                                         </div>
                                     </form>
@@ -54,8 +54,8 @@ import Axios from "axios"
 import Loader from "../components/Spinner.vue"
 import router from "../Routers/Router"
 import AlertWarning from "../components/CustomAlerts/Warning.vue";
-import { ref } from "vue";
-import { validateEmail } from "../Utils/utils"
+import { ref, onMounted } from "vue";
+import { validateEmail, isAuthenticated } from "../Utils/utils"
 import { invalidEmail } from "../Utils/constants"
 
 // Props
@@ -75,6 +75,12 @@ const showAlert = ref(false);
 const url: string = `${VITE_FM_API_URL}/user/login`;
 
 // Functions
+
+onMounted(async () => {
+    let isAuth = await isAuthenticated()
+    if (isAuth) router.push({ name: "Home" })
+})
+
 async function login() {
 
     if (!validateEmail(email.value)) {
@@ -101,7 +107,7 @@ async function login() {
         msg.value = null!;
         const token: string = user.data.body;
         localStorage.setItem('FMUserAuth', JSON.stringify(token));
-        router.push("/")
+        router.push({ name: "Home" })
     }
     loading.value = false
 }

@@ -45,7 +45,7 @@
                                                     Eliminar
                                                 </button>
                                                 <Modal :show="showModal" text="¿Deseas eliminar tu perfil?"
-                                                    btnColor="red" @confirm="deletePerfil(logUserData.userId)"
+                                                    btnColor="red" @confirm="deletePerfil(user.id)"
                                                     @close="showModal = false" />
                                             </div>
                                         </form>
@@ -67,15 +67,11 @@ import Loader from "../components/Spinner.vue"
 import Axios from "axios"
 import router from "../Routers/Router"
 import Modal from "../components/Modal.vue"
+import { getUserToken } from "../Utils/utils"
 
 interface Props {
     imgProfile: string;
     userName: string;
-}
-
-interface logUser {
-    token: string;
-    userId: number;
 }
 
 defineProps<Props>();
@@ -87,49 +83,41 @@ const rol = ref<string>(null!);
 const user = ref<any>({});
 const loading = ref(false);
 const { VITE_FM_API_URL } = import.meta.env;
-const logUser = localStorage.getItem('FMUserAuth') as string;
+const logUserData = getUserToken();
 const showModal = ref(false);
 
-if (!validLogUser(logUser)) {
-    router.push({ name: "login" });
-}
-
-const logUserData = (JSON.parse(logUser)) as logUser
-
 onMounted(async () => {
-    const url: string | undefined = `${VITE_FM_API_URL}/user/${logUserData.userId}`;
+    const url: string = `${VITE_FM_API_URL}/user/token`;
 
-    let data = await Axios.get(url);
-    if (!data.data.body) {
-        router.push({ name: "login" });
-        return;
+    try {
+        let data = await Axios.get(url, { headers: { "Authorization": `Bearer ${logUserData.token}` } });
+        if (!data.data.body) {
+            router.push({ name: "Login" });
+            return;
+        }
+        user.value = data.data.body;
+
+        email.value = user.value.email;
+        name.value = user.value.name;
+        lastname.value = user.value.lastname;
+        rol.value = user.value.rol.rol_type;
     }
-    user.value = data.data.body;
-
-    email.value = user.value.email;
-    name.value = user.value.name;
-    lastname.value = user.value.lastname;
-    rol.value = user.value.rol.rol_type;
+    catch (e: unknown) {
+        router.push({ name: "Login" });
+    }
 
 })
 
 async function deletePerfil(id: number) {
-    const url: string | undefined = `${VITE_FM_API_URL}/user?idEntity=${id}`;
+    const url: string = `${VITE_FM_API_URL}/user?idEntity=${id}`;
     try {
         let result = await Axios.delete(url)
         if (result?.status == 200) {
             localStorage.removeItem('FMUserAuth');
-            router.push({ name: "login" });
+            router.push({ name: "Login" });
         }
     }
     catch { }
-}
-
-function validLogUser(userJson: string) {
-    if (!userJson) return false;
-    const data = (JSON.parse(logUser)) as logUser
-    if (!data.userId) return false;
-    return true;
 }
 
 </script>

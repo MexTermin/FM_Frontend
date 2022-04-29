@@ -34,9 +34,9 @@
                                         {{ item.name }}
                                     </td>
                                     <td class="text-lg text-gray-900 font-light px-1 py-4 whitespace-nowrap">
-                                        <a :href="`/editar-usuario/?id=${item.id}`"
+                                        <a :href="`/details-category/?id=${item.id}`"
                                             class="inline-block mr-2 px-6 py-2.5 bg-blue-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-500 hover:shadow-lg focus:bg-blue-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-600 active:shadow-lg transition duration-150 ease-in-out">
-                                            Editar
+                                            Detalles
                                         </a>
                                         <button
                                             class="inline-block px-6 py-2.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out"

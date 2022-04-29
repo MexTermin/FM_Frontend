@@ -1,7 +1,7 @@
 <template>
     <section class="h-screen gradient-form bg-gray-200 md:h-screen">
         <div class="sidebar">
-            <Sidebar :userName="userName" :imgProfile="imgProfile" />
+            <Sidebar :userName="userName" :imgProfile="imgProfile" :isAdult="true"/>
         </div>
         <div class="container py-3 px-2 h-full w-5/6 ml-auto">
             <div class="flex justify-center items-center flex-wrap h-full g-6 text-gray-800 ">
@@ -108,8 +108,8 @@ defineProps<Props>();
 
 // Funnctions
 onMounted(async () => {
-  user.value = (await getUserInfo()).body;
-  userName.value = user.value.name;
+    user.value = (await getUserInfo()).body;
+    userName.value = user.value.name;
 })
 
 async function CreateUser() {

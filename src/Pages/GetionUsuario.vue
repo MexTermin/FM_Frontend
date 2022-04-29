@@ -1,7 +1,7 @@
 <template>
     <div class="gestion_usuario-container w-screen h-screen">
         <div class="sidebar">
-            <Sidebar :userName="userName" :imgProfile="imgProfile" />
+            <Sidebar :userName="userName" :imgProfile="imgProfile" :isAdult="true"/>
         </div>
         <SuccessAlert :text="msg" v-if="showSuccessAlert" @close="showSuccessAlert = false" />
         <WarnignAlert :text="msg" v-if="showErrorAlert" @close="showErrorAlert = false" />

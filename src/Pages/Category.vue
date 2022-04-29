@@ -2,7 +2,7 @@
     <div class="category-container w-screen h-screen">
         <SuccessAlert :text="msg" v-if="showSuccessAlert" @close="showSuccessAlert = false" />
         <WarnignAlert :text="msg" v-if="showErrorAlert" @close="showErrorAlert = false" />
-        <Sidebar :imgProfile="imgProfile" :userName="userName" />
+        <Sidebar :imgProfile="imgProfile" :userName="userName" :isAdult="true"/>
         <Loader v-if="loading" />
         <Modal :show="showModal" text="¿Deseas eliminar esta categoría?" btnColor="red"
             @confirm="deleteCategory(categoryId, categoryIndex)" @close="showModal = false" />

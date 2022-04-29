@@ -1,6 +1,6 @@
 <template>
   <div class="home-container w-screen h-screen">
-    <Sidebar :imgProfile="imgProfile" :userName="userName" />
+    <Sidebar :imgProfile="imgProfile" :userName="userName" :isAdult="isAdult"/>
   </div>
 </template>
 
@@ -19,11 +19,13 @@ defineProps<Props>();
 // Contants
 const user = ref<any>();
 const userName = ref("");
+const isAdult = ref(false);
 
 // Functions
 onMounted(async () => {
   user.value = (await getUserInfo()).body;
   userName.value = user.value.name;
+  isAdult.value = (user.value.rol.rol_type as string).toLowerCase() == 'adulto';
 })
 
 </script>

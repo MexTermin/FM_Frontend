@@ -14,7 +14,8 @@
     </div>
     <ul class="relative px-1">
       <li class="relative" v-for="(item, index) in sidevarItems" :key="index">
-        <a class="flex items-center text-lg py-4 px-6 h-12 overflow-hidden text-white text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out"
+        <a v-if="isAdult || !item.adult"
+          class="flex items-center text-lg py-4 px-6 h-12 overflow-hidden text-white text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out"
           :href="item.href">
           <span>{{ item.title }}</span>
         </a>
@@ -33,17 +34,18 @@
 <script lang="ts" setup>
 
 const sidevarItems = [
-  { title: "Inicio", href: "/" },
-  { title: "Presupuestos", href: "#!" },
-  { title: "Estimaciones", href: "#!" },
-  { title: "Perfil", href: "/profile" },
-  { title: "Gestionar Usuarios", href: "/gestion-usuario" },
-  { title: "Categorias", href: "/category" },
+  { title: "Inicio", href: "/", adult: false },
+  { title: "Presupuestos", href: "#!", adult: true },
+  { title: "Estimaciones", href: "#!", adult: true },
+  { title: "Perfil", href: "/profile", adult: false },
+  { title: "Gestionar Usuarios", href: "/gestion-usuario", adult: true },
+  { title: "Categorias", href: "/category", adult: true },
 ]
 
 interface Props {
   userName: string;
   imgProfile: string;
+  isAdult: boolean;
 }
 
 defineProps<Props>();

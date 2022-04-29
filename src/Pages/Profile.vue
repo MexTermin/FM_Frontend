@@ -2,7 +2,7 @@
     <div class="profile-container w-screen h-screen">
         <section class="h-full gradient-form bg-gray-200 md:h-screen">
             <div class="sidebar">
-                <Sidebar :userName="name" :imgProfile="imgProfile" />
+                <Sidebar :userName="name" :imgProfile="imgProfile" :isAdult="isAdult"/>
             </div>
             <div class="container py-12 px-6 h-5/6 w-5/6 ml-auto">
                 <div class="flex justify-center items-center flex-wrap h-full g-6 text-gray-800 ">
@@ -80,6 +80,7 @@ const name = ref<string>(null!);
 const lastname = ref<string>(null!);
 const rol = ref<string>(null!);
 const user = ref<any>({});
+const isAdult = ref(false);
 const loading = ref(false);
 const { VITE_FM_API_URL } = import.meta.env;
 const logUserData = getUserToken();
@@ -100,6 +101,7 @@ onMounted(async () => {
         name.value = user.value.name;
         lastname.value = user.value.lastname;
         rol.value = user.value.rol.rol_type;
+        isAdult.value = ( rol.value as string).toLowerCase() == 'adulto';
     }
     catch (e: unknown) {
         router.push({ name: "Login" });

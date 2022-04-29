@@ -37,7 +37,8 @@ const sidevarItems = [
   { title: "Presupuestos", href: "#!" },
   { title: "Estimaciones", href: "#!" },
   { title: "Perfil", href: "/profile" },
-  { title: "Gestionar Usuarios", href: "/gestion-usuario" }
+  { title: "Gestionar Usuarios", href: "/gestion-usuario" },
+  { title: "Categorias", href: "/category" },
 ]
 
 interface Props {

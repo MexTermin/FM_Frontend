@@ -1,22 +1,20 @@
 <template>
-    <div class="gestion_usuario-container w-screen h-screen">
-        <div class="sidebar">
-            <Sidebar :userName="userName" :imgProfile="imgProfile" />
-        </div>
+    <div class="category-container w-screen h-screen">
         <SuccessAlert :text="msg" v-if="showSuccessAlert" @close="showSuccessAlert = false" />
         <WarnignAlert :text="msg" v-if="showErrorAlert" @close="showErrorAlert = false" />
+        <Sidebar :imgProfile="imgProfile" :userName="userName" />
         <Loader v-if="loading" />
-        <Modal :show="showModal" text="¿Deseas eliminar este usuario?" btnColor="red"
-            @confirm="deleteUser(userId, userIndex)" @close="showModal = false" />
+        <Modal :show="showModal" text="¿Deseas eliminar esta categoría?" btnColor="red"
+            @confirm="deleteCategory(categoryId, categoryIndex)" @close="showModal = false" />
         <div class="flex flex-col w-5/6 ml-auto">
             <div class="overflow-x-auto mx-1">
-                <h3 class="text-3xl	 text-center mt-4">Gestion de usuarios</h3>
                 <div class="flex fixed bottom-5 right-5">
-                    <a href="/create"
+                    <a href="/create-category"
                         class="inline-block px-6 py-2.5 bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700 active:shadow-lg transition duration-150 ease-in-out">
                         Crear
                     </a>
                 </div>
+                <h3 class="text-3xl	 text-center mt-4">Categorias</h3>
                 <div class="py-4 inline-block min-w-full ">
                     <div class="overflow-hidden">
                         <table class="min-w-full text-center">
@@ -26,32 +24,14 @@
                                         Nombre
                                     </th>
                                     <th scope="col" class="text-lg font-medium text-white px-3 py-4">
-                                        Apellido
-                                    </th>
-                                    <th scope="col" class="text-lg font-medium text-white px-3 py-4">
-                                        Correo
-                                    </th>
-                                    <th scope="col" class="text-lg font-medium text-white px-3 py-4">
-                                        Rol
-                                    </th>
-                                    <th scope="col" class="text-lg font-medium text-white px-3 py-4">
                                         Opciones
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(item, index) in usuarios" :key="index" class="bg-slate-50 border-b">
+                                <tr v-for="(item, index) in categories" :key="index" class="bg-slate-50 border-b">
                                     <td class="text-lg text-gray-900 font-light px-1 py-4 whitespace-nowrap">
                                         {{ item.name }}
-                                    </td>
-                                    <td class="text-lg text-gray-900 font-light px-1 py-4 whitespace-nowrap">
-                                        {{ item.lastname }}
-                                    </td>
-                                    <td class="text-lg text-gray-900 font-light px-1 py-4 whitespace-nowrap">
-                                        {{ item.email }}
-                                    </td>
-                                    <td class="text-lg text-gray-900 font-light px-1 py-4 whitespace-nowrap">
-                                        {{ item.rol?.rol_type }}
                                     </td>
                                     <td class="text-lg text-gray-900 font-light px-1 py-4 whitespace-nowrap">
                                         <a :href="`/editar-usuario/?id=${item.id}`"
@@ -72,88 +52,86 @@
             </div>
         </div>
     </div>
-
 </template>
 
 <script lang="ts" setup>
 // Imports
-import Sidebar from "../components/Sidebar.vue";
 import SuccessAlert from "../components/CustomAlerts/Success.vue"
 import WarnignAlert from "../components/CustomAlerts/Warning.vue"
-import Axios from "axios"
+import Sidebar from "../components/Sidebar.vue";
 import Modal from "../components/Modal.vue"
 import Loader from "../components/Spinner.vue"
 import { getUserInfo } from "../Utils/utils"
-import { onMounted, ref } from "vue";
+import { ref, onMounted } from "vue"
+import Axios from "axios"
 
 // Props
 interface Props {
     imgProfile: string;
 }
-
 defineProps<Props>();
 
-// Constans
-const userId = ref<number>(0);
-const userIndex = ref<number>(0);
-const usuarios = ref<Array<any>>([]);
-const loading = ref(false);
-const showSuccessAlert = ref(false);
-const showErrorAlert = ref(false);
-const msg = ref("");
+// Contants
 const { VITE_FM_API_URL } = import.meta.env;
+// --- Current user constants
 const user = ref<any>();
 const userName = ref("");
+const loading = ref(false);
+// --- Current Pages constants
+const categories = ref<any>();
+const categoryId = ref<number>(0);
+const categoryIndex = ref<number>(0);
+// ---- Notifications
+const msg = ref("");
+const showModal = ref(false);
+const showSuccessAlert = ref(false);
+const showErrorAlert = ref(false);
 
 // Functions
 onMounted(async () => {
     loading.value = true;
-    const url: string | undefined = `${VITE_FM_API_URL}/user`;
-    let users = await Axios.get(url);
-    usuarios.value = users.data.body;
 
+    const url: string = `${VITE_FM_API_URL}/category`;
+    let categoriesData = await Axios.get(url);
+    categories.value = categoriesData.data.body;
+
+    // Current login user data
     user.value = (await getUserInfo()).body;
     userName.value = user.value.name;
 
     loading.value = false;
 })
 
-async function deleteUser(id: any, index: number) {
+function openModal(id: number, index: number) {
+    categoryId.value = id;
+    categoryIndex.value = index;
+    showModal.value = true;
+}
+
+async function deleteCategory(id: any, index: number) {
     loading.value = true;
-    const url: string | undefined = `${VITE_FM_API_URL}/user?idEntity=${id}`;
+    const url: string = `${VITE_FM_API_URL}/category?idEntity=${id}`;
     try {
         let result = await Axios.delete(url)
         if (result?.status == 200) {
-            usuarios.value.splice(index, 1);
-            msg.value = "Usuario eliminado correctamente";
+            categories.value.splice(index, 1);
+            msg.value = "Categoría eliminada correctamente";
             showSuccessAlert.value = true;
             showErrorAlert.value = false;
         }
     }
     catch {
-        msg.value = "No se ha podido eliminar el usuario";
+        msg.value = "No se ha podido eliminar la categoría";
         showSuccessAlert.value = false;
         showErrorAlert.value = true;
     }
     loading.value = false;
 }
 
-const showModal = ref(false);
-
-function openModal(id: number, index: number) {
-    userId.value = id;
-    userIndex.value = index;
-    showModal.value = true;
-}
-
 </script>
 
 <style>
-.gestion_usuario-container {
+.category-container {
     background-color: var(--secundary-color);
-}
-
-.td-head {
-    background-color: var(--primary-color);
 }
 </style>

@@ -4,6 +4,8 @@ import Login from "../Pages/Login.vue";
 import CreateAccount from "../Pages/CreateAccount.vue";
 import GestionUsuario from "../Pages/GetionUsuario.vue";
 import EditarUsuario from "../Pages/EditarUsuario.vue";
+import Category from "../Pages/Category.vue";
+import CreateCategory from "../Pages/CreateCategory.vue";
 import Profile from "../Pages/Profile.vue";
 import { isAuthenticated } from "../Utils/utils";
 
@@ -44,6 +46,18 @@ const router = createRouter({
       component: EditarUsuario,
       props: { imgLogin, imgProfile },
       name: "EditUser",
+    },
+    {
+      path: "/category",
+      component: Category,
+      props: { imgProfile },
+      name: "Category",
+    },
+    {
+      path: "/create-category",
+      component: CreateCategory,
+      props: { imgProfile },
+      name: "CreateCategory",
     },
   ],
 });

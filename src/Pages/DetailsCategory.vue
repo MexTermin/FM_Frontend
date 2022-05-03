@@ -41,7 +41,7 @@
                                                 type="button" data-mdb-ripple="true" data-mdb-ripple-color="light">
                                                 Editar
                                             </a>
-                                            <button @click='Router.push({ name: "Category" })'
+                                            <button @click='Router.push({ name: "CategoriesManagement" })'
                                                 class="bg-red-800 inline-block px-6 py-2.5 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full mb-3"
                                                 type="button" data-mdb-ripple="true" data-mdb-ripple-color="light">
                                                 Cerrar
@@ -137,7 +137,7 @@ async function ActualizarCategoria() {
     if (data.ok) {
         msg.value = null!;
         msgSuccess.value = "Categoría actualizada correctamente"
-        Router.push({ name: "Category" })
+        Router.push({ name: "CategoriesManagement" })
 
     } else {
         if (result.error) msg.value = result.message;

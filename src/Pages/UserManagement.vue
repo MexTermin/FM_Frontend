@@ -54,7 +54,7 @@
                                         {{ item.rol?.rol_type }}
                                     </td>
                                     <td class="text-lg text-gray-900 font-light px-1 py-4 whitespace-nowrap">
-                                        <a :href="`/editar-usuario/?id=${item.id}`"
+                                        <a :href="`/edit-user/?id=${item.id}`"
                                             class="inline-block mr-2 px-6 py-2.5 bg-blue-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-500 hover:shadow-lg focus:bg-blue-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-600 active:shadow-lg transition duration-150 ease-in-out">
                                             Editar
                                         </a>

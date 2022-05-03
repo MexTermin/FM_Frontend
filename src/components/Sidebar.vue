@@ -38,8 +38,8 @@ const sidevarItems = [
   { title: "Presupuestos", href: "#!", adult: true },
   { title: "Estimaciones", href: "#!", adult: true },
   { title: "Perfil", href: "/profile", adult: false },
-  { title: "Gestionar Usuarios", href: "/gestion-usuario", adult: true },
-  { title: "Categorias", href: "/category", adult: true },
+  { title: "Gestionar Usuarios", href: "/user-management", adult: true },
+  { title: "Gestionar Categorias", href: "/categories-management", adult: true },
 ]
 
 interface Props {

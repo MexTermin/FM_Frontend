@@ -3,11 +3,11 @@ import Home from "../Pages/Home.vue";
 
 import Login from "../Pages/Login.vue";
 import CreateAccount from "../Pages/CreateAccount.vue";
-import GestionUsuario from "../Pages/GetionUsuario.vue";
-import EditarUsuario from "../Pages/EditarUsuario.vue";
+import UserManagement from "../Pages/UserManagement.vue";
+import EditUser from "../Pages/EditUser.vue";
 import Profile from "../Pages/Profile.vue";
 
-import Category from "../Pages/Category.vue";
+import CategoryManagement from "../Pages/CategoryManagement.vue";
 import CreateCategory from "../Pages/CreateCategory.vue";
 import EditCategory from "../Pages/EditCategory.vue";
 import DetailsCategory from "../Pages/DetailsCategory.vue";
@@ -35,8 +35,8 @@ const router = createRouter({
       name: "CreateUser",
     },
     {
-      path: "/gestion-usuario",
-      component: GestionUsuario,
+      path: "/user-management",
+      component: UserManagement,
       props: { imgProfile },
       name: "UserManagement",
     },
@@ -47,16 +47,16 @@ const router = createRouter({
       name: "Profile",
     },
     {
-      path: "/editar-usuario",
-      component: EditarUsuario,
+      path: "/edit-user",
+      component: EditUser,
       props: { imgLogin, imgProfile },
       name: "EditUser",
     },
     {
-      path: "/category",
-      component: Category,
+      path: "/categories-management",
+      component: CategoryManagement,
       props: { imgProfile },
-      name: "Category",
+      name: "CategoriesManagement",
     },
     {
       path: "/create-category",
@@ -80,7 +80,7 @@ const router = createRouter({
 });
 
 const AdultRoute = [
-  "Category",
+  "CategoriesManagement",
   "DetailsCategory",
   "CreateCategory",
   "EditCategory",

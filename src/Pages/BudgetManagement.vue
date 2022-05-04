@@ -5,7 +5,7 @@
         <Sidebar :imgProfile="imgProfile" :userName="userName" :isAdult="true" />
         <Loader v-if="loading" />
         <Modal :show="showModal" text="¿Deseas eliminar este presupuesto?" btnColor="red"
-            @confirm="deleteCategory(budgetId, budgetIndex)" @close="showModal = false" />
+            @confirm="deleteBudget(budgetId, budgetIndex)" @close="showModal = false" />
         <div class="flex flex-col w-5/6 ml-auto">
             <div class="overflow-x-auto mx-1">
                 <div class="flex fixed bottom-5 right-5">
@@ -130,7 +130,7 @@ function openModal(id: number, index: number) {
     showModal.value = true;
 }
 
-async function deleteCategory(id: any, index: number) {
+async function deleteBudget(id: any, index: number) {
     loading.value = true;
     const url: string = `${VITE_FM_API_URL}/budget?idEntity=${id}`;
     try {

@@ -14,7 +14,7 @@
                                 <div class="md:p-5 md:mx-6">
                                     <div class="text-center">
                                         <img class="mx-auto w-48" :src="imgProfile" alt="logo" />
-                                        <h4 class="text-xl font-semibold mt-1 mb-12 pb-1">Crear presupuesto añual</h4>
+                                        <h4 class="text-xl font-semibold mt-1 mb-12 pb-1">Crear presupuesto anual</h4>
                                     </div>
                                     <form>
                                         <div class="mb-4">

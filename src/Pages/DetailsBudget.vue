@@ -1,8 +1,10 @@
 <template>
     <section class="h-screen gradient-form bg-gray-200 md:h-screen">
         <div class="sidebar">
-            <Sidebar :userName="userName" :imgProfile="imgProfile" :isAdult="true"/>
+            <Sidebar :userName="userName" :imgProfile="imgProfile" :isAdult="true" />
         </div>
+        <Modal :show="showModal" text="¿Deseas eliminar este presupuesto?" btnColor="red"
+            @confirm="deleteCategory(id)" @close="showModal = false" />
         <div class="container py-12 px-6 h-5/6 w-5/6 ml-auto">
             <div class="flex justify-center items-center flex-wrap h-full g-6 text-gray-800 ">
                 <div class="w-3/6">
@@ -32,8 +34,7 @@
                                             <span class="text-center pl-1">Año:</span>
                                             <input type="text" v-model="year"
                                                 class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                                                id="agno" placeholder="Año" name="agno"
-                                                disabled />
+                                                id="agno" placeholder="Año" name="agno" disabled />
                                         </div>
                                         <div class="text-center pt-1 mb-12 pb-1">
                                             <a :href="`/edit-budget/?id=${id}`"
@@ -41,6 +42,11 @@
                                                 type="button" data-mdb-ripple="true" data-mdb-ripple-color="light">
                                                 Editar
                                             </a>
+                                            <button
+                                                class="bg-red-800 inline-block px-6 py-2.5 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full mb-3"
+                                                type="button" v-on:click='openModal()'>
+                                                Eliminar
+                                            </button>
                                             <button @click='Router.push({ name: "BudgetManagement" })'
                                                 class="bg-red-800 inline-block px-6 py-2.5 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full mb-3"
                                                 type="button" data-mdb-ripple="true" data-mdb-ripple-color="light">
@@ -64,6 +70,7 @@ import Sidebar from "../components/Sidebar.vue";
 import imgProfile from "../img/account_circle_black.svg";
 import Loader from "../components/Spinner.vue"
 import Router from "../Routers/Router"
+import Modal from "../components/Modal.vue"
 import Axios from "axios"
 import { getUserInfo } from "../Utils/utils"
 import { onMounted, ref } from "vue";
@@ -86,8 +93,9 @@ const id = ref<number>(null!);
 const loading = ref(false);
 const msg = ref<string>(null!);
 const msgSuccess = ref<string>(null!);
-const user = ref<any>();
+const showModal = ref(false);
 
+const user = ref<any>();
 const userName = ref("");
 
 // Functions
@@ -108,5 +116,28 @@ onMounted(async () => {
     loading.value = false;
 
 });
+
+async function deleteCategory(id: any, index: number) {
+    loading.value = true;
+    const url: string = `${VITE_FM_API_URL}/budget?idEntity=${id}`;
+    try {
+        let result = await Axios.delete(url)
+        if (result?.status == 200) {
+            msgSuccess.value = "Presupuesto eliminado correctamente";
+            msg.value = null!;
+            Router.push({ name: "BudgetManagement" })
+        }
+    }
+    catch {
+        msg.value = "No se ha podido eliminar el presupuesto";
+        msgSuccess.value = null!;
+    }
+    loading.value = false;
+}
+
+
+function openModal() {
+    showModal.value = true;
+}
 
 </script>

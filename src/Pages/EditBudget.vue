@@ -23,13 +23,13 @@
                                             {{ msgSuccess }}
                                         </span>
                                         <div class="mb-4">
-                                            <span class="text-center pl-1">Año:</span>
-                                            <input v-model="agno" type="text"
+                                            <span class="text-center pl-1">Fecha:</span>
+                                            <input v-model="date" type="month"
                                                 class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                                                id="agno" placeholder="Año" name="agno" />
+                                                id="date" placeholder="Fecha" name="date" />
                                         </div>
                                         <div class="text-center pt-1 mb-12 pb-1">
-                                            <button v-on:click="ActualizarBudgetyears"
+                                            <button v-on:click="ActualizarBudget"
                                                 class="btn_fm-primary inline-block px-6 py-2.5 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full mb-3"
                                                 type="button" data-mdb-ripple="true" data-mdb-ripple-color="light">
                                                 Actualizar
@@ -72,7 +72,7 @@ defineProps<Props>();
 // Contants
 const { VITE_FM_API_URL } = import.meta.env;
 
-const agno = ref<string>(null!);
+const date = ref<string>(null!);
 const id = ref<number>(null!);
 
 const loading = ref(false);
@@ -85,11 +85,13 @@ const userName = ref("");
 // Functions
 onMounted(async () => {
     const urlParams = new URLSearchParams(window.location.search);
-    const url: string = `${VITE_FM_API_URL}/budgetyears/${urlParams.get("id")}`;
-
+    const url: string = `${VITE_FM_API_URL}/budget/${urlParams.get("id")}`;
     let result = await Axios.get(url);
+    const month = (result.data.body.month as Number) < 10
+        ? `0${result.data.body.month}`
+        : result.data.body.month;
 
-    agno.value = result.data.body.year;
+    date.value = `${result.data.body.year}-${month}`;
     id.value = Number(urlParams.get("id"));
 
     user.value = (await getUserInfo()).body;
@@ -97,15 +99,16 @@ onMounted(async () => {
 
 });
 
-async function ActualizarBudgetyears() {
-    const url: string = `${VITE_FM_API_URL}/budgetyears`;
+async function ActualizarBudget() {
+    const url: string = `${VITE_FM_API_URL}/budget`;
     msgSuccess.value = null!;
     const body = {
         "id": id.value,
-        "year": agno.value,
+        "year": date.value.split("-")[0],
+        "month": date.value.split("-")[1],
     }
 
-    if (!agno.value) {
+    if (!date.value) {
         msg.value = "Llene todos los campos correctamente"
         return
     }

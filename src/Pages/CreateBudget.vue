@@ -1,7 +1,7 @@
 <template>
     <section class="h-screen gradient-form bg-gray-200 md:h-screen">
         <div class="sidebar">
-            <Sidebar :userName="userName" :imgProfile="imgProfile" :isAdult="true"/>
+            <Sidebar :userName="userName" :imgProfile="imgProfile" :isAdult="true" />
         </div>
         <div class="container py-3 px-2 h-full w-5/6 ml-auto">
             <div class="flex justify-center items-center flex-wrap h-full g-6 text-gray-800 ">
@@ -14,13 +14,16 @@
                                 <div class="md:p-5 md:mx-6">
                                     <div class="text-center">
                                         <img class="mx-auto w-48" :src="imgProfile" alt="logo" />
-                                        <h4 class="text-xl font-semibold mt-1 mb-12 pb-1">Crear presupuesto anual</h4>
+                                        <h4 class="text-xl font-semibold mt-1 mb-12 pb-1">Crear presupuesto</h4>
                                     </div>
                                     <form>
                                         <div class="mb-4">
-                                            <input v-model="agno" type="text"
+                                            <span>Seleccione la fecha del presupuesto</span>
+                                            <input v-model="date"
+                                                type="month"
+                                                min="2022-01"
                                                 class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                                                id="agno" placeholder="Año" name="agno" />
+                                                id="date" placeholder="Fecha" name="date" />
                                         </div>
                                         <div class="text-center pt-1 mb-12 pb-1">
                                             <button v-on:click="CreateBudget" id="btn-guardar"
@@ -60,7 +63,7 @@ import "../types/TypesApi"
 // Constans(Properties)
 const { VITE_FM_API_URL } = import.meta.env;
 // --- Current page
-const agno = ref<string>(null!);
+const date = ref<string>(null!);
 // --- Notifications
 const msg = ref<string>(null!);
 const showAlert = ref(false);
@@ -86,16 +89,17 @@ onMounted(async () => {
 })
 
 async function CreateBudget() {
-    const url: string | undefined = `${VITE_FM_API_URL}/budgetyears`;
+    const url: string | undefined = `${VITE_FM_API_URL}/budget`;
     const body = {
-        "year": agno.value
-
+        "year": date.value.split("-")[0],
+        "month": date.value.split("-")[1]
     }
-    if (!agno.value) {
+    if (!date.value) {
         showAlert.value = true;
         msg.value = "Llene todos los campos correctamente";
         return;
     }
+
 
     loading.value = true;
 
@@ -110,8 +114,8 @@ async function CreateBudget() {
     const result = (await data.json()) as DataResponse;
 
     if (data.ok) {
-        agno.value = null!;
-        msg.value = null!;
+        date.value = null!;
+        msg.value = "Creado correctamente";
         showAlert.value = true;
         Router.push({ name: "BudgetManagement" });
 

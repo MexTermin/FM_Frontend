@@ -1,24 +1,17 @@
-import CreateBudget from "../Pages/CreateBudgetYears.vue";
+import CreateBudget from "../Pages/CreateBudget.vue";
 import BudgetManagement from "../Pages/BudgetManagement.vue"
-import EditButgetYears from "../Pages/EditBudgetYears.vue";
-import DetailsBudgetYears from "../Pages/DetailsBudgetYears.vue";
+import EditButget from "../Pages/EditBudget.vue";
+import DetailsBudget from "../Pages/DetailsBudget.vue";
 
-import Login from "../Pages/Login.vue";
 import imgLogin from "../img/account_circle_black.svg";
 import imgProfile from "../img/account_circle_black.svg";
 
 const BudgetPaths = [
     {
-      path: "/login",
-      component: Login,
-      props: { imgLogin },
-      name: "Login",
-    },
-    {
       path: "/create-budget",
       component: CreateBudget,
       props: { imgLogin },
-      name: "CreateUser",
+      name: "CreateBudget",
     },
     {
       path: "/budget-management",
@@ -27,16 +20,16 @@ const BudgetPaths = [
       name: "BudgetManagement",
     },
     {
-      path: "/details-budgetyears",
-      component: DetailsBudgetYears,
+      path: "/details-budget",
+      component: DetailsBudget,
       props: { imgProfile },
-      name: "DetailsBudgetYears",
+      name: "DetailsBudget",
     },
     {
-      path: "/edit-budgetyears",
-      component: EditButgetYears,
+      path: "/edit-budget",
+      component: EditButget,
       props: { imgLogin, imgProfile },
-      name: "EditButgetYears",
+      name: "EditButget",
     },
   ]
 

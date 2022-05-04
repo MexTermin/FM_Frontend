@@ -1,7 +1,7 @@
 import CreateBudget from "../Pages/CreateBudgetYears.vue";
 import BudgetManagement from "../Pages/BudgetManagement.vue"
 import EditButgetYears from "../Pages/EditBudgetYears.vue";
-import Profile from "../Pages/Profile.vue";
+import DetailsBudgetYears from "../Pages/DetailsBudgetYears.vue";
 
 import Login from "../Pages/Login.vue";
 import imgLogin from "../img/account_circle_black.svg";
@@ -27,10 +27,10 @@ const BudgetPaths = [
       name: "BudgetManagement",
     },
     {
-      path: "/profile",
-      component: Profile,
+      path: "/details-budgetyears",
+      component: DetailsBudgetYears,
       props: { imgProfile },
-      name: "Profile",
+      name: "DetailsBudgetYears",
     },
     {
       path: "/edit-budgetyears",

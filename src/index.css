@@ -6,6 +6,7 @@
     --primary-color: rgb(30, 41, 59);
     --secundary-color: rgb(226, 232, 240);
     --primary-gradient: rgb(30, 41, 59), rgb(21, 28, 38), rgb(17, 22, 32);
+    --light-color: white;
 }
 
 body{

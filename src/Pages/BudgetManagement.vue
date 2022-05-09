@@ -6,11 +6,12 @@
         <Loader v-if="loading" />
         <Modal :show="showModal" text="¿Deseas eliminar este presupuesto?" btnColor="red"
             @confirm="deleteBudget(budgetId, budgetIndex)" @close="showModal = false" />
+        <EstimateManagementVue v-if="showEstimate" @close="showEstimate = false" :idBudget="budgetId" />
         <div class="flex flex-col w-5/6 ml-auto">
             <div class="overflow-x-auto mx-1">
                 <div class="flex fixed bottom-5 right-5">
                     <a href="/create-budget"
-                        class="inline-block px-6 py-2.5 bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700 active:shadow-lg transition duration-150 ease-in-out">
+                        class="z-0 inline-block px-6 py-2.5 bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700 active:shadow-lg transition duration-150 ease-in-out">
                         Crear
                     </a>
                 </div>
@@ -34,7 +35,7 @@
                             <tbody>
                                 <tr v-for="(item, index) in budgets" :key="index" class="bg-slate-50 border-b">
                                     <td class="text-lg text-gray-900 font-light px-1 py-4 whitespace-nowrap">
-                                        {{ item.month }}
+                                        {{ toMonthName(item.month) }}
                                     </td>
                                     <td class="text-lg text-gray-900 font-light px-1 py-4 whitespace-nowrap">
                                         {{ item.year }}
@@ -52,11 +53,11 @@
                                             class="inline-block mr-2 px-6 py-2.5 bg-blue-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-500 hover:shadow-lg focus:bg-blue-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-600 active:shadow-lg transition duration-150 ease-in-out">
                                             Gastos
                                         </a>
-                                        <a :href="`#!`"
+                                        <button @click=" budgetId = item.id; showEstimate = true;"
                                             class="inline-block mr-2 px-6 py-2.5 bg-blue-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-500 hover:shadow-lg focus:bg-blue-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-600 active:shadow-lg transition duration-150 ease-in-out">
                                             Estimación
-                                        </a>
-                                        <a :href="`#!`"
+                                        </button>
+                                        <a :href="`/`"
                                             class="inline-block mr-2 px-6 py-2.5 bg-blue-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-500 hover:shadow-lg focus:bg-blue-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-600 active:shadow-lg transition duration-150 ease-in-out">
                                             Ingresos
                                         </a>
@@ -80,10 +81,11 @@
 // Imports
 import SuccessAlert from "../components/CustomAlerts/Success.vue"
 import WarnignAlert from "../components/CustomAlerts/Warning.vue"
+import EstimateManagementVue from "../components/EstimateManagement.vue";
 import Sidebar from "../components/Sidebar.vue";
 import Modal from "../components/Modal.vue"
 import Loader from "../components/Spinner.vue"
-import { getUserInfo } from "../Utils/utils"
+import { getUserInfo, toMonthName } from "../Utils/utils"
 import { ref, onMounted } from "vue"
 import Axios from "axios"
 
@@ -103,6 +105,7 @@ const loading = ref(false);
 const budgets = ref<any>();
 const budgetId = ref<number>(0);
 const budgetIndex = ref<number>(0);
+const showEstimate = ref(false);
 // ---- Notifications
 const msg = ref("");
 const showModal = ref(false);

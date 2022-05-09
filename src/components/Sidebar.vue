@@ -35,9 +35,8 @@
 
 const sidevarItems = [
   { title: "Inicio", href: "/", adult: false },
-  { title: "Presupuestos", href: "/budget-management", adult: true },
-  { title: "Estimaciones", href: "#!", adult: true },
   { title: "Perfil", href: "/profile", adult: false },
+  { title: "Gestionar Presupuestos", href: "/budget-management", adult: true },
   { title: "Gestionar Usuarios", href: "/user-management", adult: true },
   { title: "Gestionar Categorias", href: "/categories-management", adult: true },
 ]

@@ -43,8 +43,16 @@ export async function getUserInfo() {
     if (data.status === 200) {
       return data.data;
     }
-
   } catch (e: unknown) {
     return null;
   }
+}
+
+export function toMonthName(monthNumber: number) {
+  const date = new Date();
+  date.setMonth(monthNumber - 1);
+
+  return date.toLocaleString("es-ES", {
+    month: "long",
+  });
 }

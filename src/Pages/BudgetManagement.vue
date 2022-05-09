@@ -7,6 +7,7 @@
         <Modal :show="showModal" text="¿Deseas eliminar este presupuesto?" btnColor="red"
             @confirm="deleteBudget(budgetId, budgetIndex)" @close="showModal = false" />
         <EstimateManagementVue v-if="showEstimate" @close="showEstimate = false" :idBudget="budgetId" />
+        <TransactionManagementVue v-if="showTransaction" @close="showTransaction = false" :idBudget="budgetId" />
         <div class="flex flex-col w-5/6 ml-auto">
             <div class="overflow-x-auto mx-1">
                 <div class="flex fixed bottom-5 right-5">
@@ -49,18 +50,14 @@
                                             class="inline-block mr-2 px-6 py-2.5 bg-blue-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-500 hover:shadow-lg focus:bg-blue-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-600 active:shadow-lg transition duration-150 ease-in-out">
                                             Detalles
                                         </a>
-                                        <a :href="`#!`"
-                                            class="inline-block mr-2 px-6 py-2.5 bg-blue-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-500 hover:shadow-lg focus:bg-blue-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-600 active:shadow-lg transition duration-150 ease-in-out">
-                                            Gastos
-                                        </a>
-                                        <button @click=" budgetId = item.id; showEstimate = true;"
+                                        <button @click="budgetId = item.id; showEstimate = true;"
                                             class="inline-block mr-2 px-6 py-2.5 bg-blue-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-500 hover:shadow-lg focus:bg-blue-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-600 active:shadow-lg transition duration-150 ease-in-out">
                                             Estimación
                                         </button>
-                                        <a :href="`/`"
+                                        <button @click="budgetId = item.id; showTransaction = true;"
                                             class="inline-block mr-2 px-6 py-2.5 bg-blue-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-500 hover:shadow-lg focus:bg-blue-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-600 active:shadow-lg transition duration-150 ease-in-out">
-                                            Ingresos
-                                        </a>
+                                            Trasacciones
+                                        </button>
                                         <button
                                             class="inline-block px-6 py-2.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out"
                                             type="button" v-on:click='openModal(item.id, index)'>
@@ -82,6 +79,7 @@
 import SuccessAlert from "../components/CustomAlerts/Success.vue"
 import WarnignAlert from "../components/CustomAlerts/Warning.vue"
 import EstimateManagementVue from "../components/EstimateManagement.vue";
+import TransactionManagementVue from "../components/TransactionManagement.vue";
 import Sidebar from "../components/Sidebar.vue";
 import Modal from "../components/Modal.vue"
 import Loader from "../components/Spinner.vue"
@@ -106,6 +104,7 @@ const budgets = ref<any>();
 const budgetId = ref<number>(0);
 const budgetIndex = ref<number>(0);
 const showEstimate = ref(false);
+const showTransaction = ref(false);
 // ---- Notifications
 const msg = ref("");
 const showModal = ref(false);

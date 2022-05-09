@@ -2,15 +2,17 @@
     <Loader v-if="loading" />
     <div
         class="fixed w-screen h-screen bg-black/75 backdrop-blur-sm top-0 left-0 flex items-center justify-center z-10">
-        <div class="estimate-container fixed left-1/4 top-1/4 w-4/6 p-3 shadow-lg shadow-gray-500/50">
+        <div class="transaction-container fixed left-1/4 top-1/4 w-4/6 p-3 shadow-lg shadow-gray-500/50">
+
             <!-- Modals region -->
             <SuccessAlert :text="msg" v-if="showSuccessAlert" @close="showSuccessAlert = false" />
             <WarnignAlert :text="msg" v-if="showErrorAlert" @close="showErrorAlert = false" />
             <Modal :show="showModal" text="¿Deseas eliminar esta estimación?" btnColor="red"
-                @confirm="deleteEstimate(estimateId, estimateIndex)" @close="showModal = false" />
-            <CreateEstimateVue v-if="canCreateEstimate" @close="canCreateEstimate = false" :idBudget="idBudget"
-                @estimateData="insertEstimate" />
+                @confirm="deleteTransaction(transactionId, transactionIndex)" @close="showModal = false" />
+            <CreateTransactionVue v-if="showCreateTransaction" @close="showCreateTransaction = false"
+                :idBudget="idBudget" @transactionData="insertTransaction" />
             <!--- End region-->
+
             <div class="flex justify-end">
                 <button type="button" @click="$emit('close')"
                     class="text-red-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white">
@@ -23,23 +25,26 @@
             </div>
             <div class="flex flex-col w-6/6 ml-auto">
                 <div class="overflow-x-auto mx-1">
-                    <h3 class="text-3xl	 text-center mt-4">Estimaciones</h3>
+                    <h3 class="text-3xl	 text-center mt-4">Transaciones</h3>
                     <div class="py-4 inline-block min-w-full ">
                         <div class="overflow-hidden">
                             <table class="min-w-full text-center">
                                 <thead class="border-b  td-head">
                                     <tr>
                                         <th scope="col" class="text-lg font-medium text-white px-3 py-4">
-                                            Plan
+                                            Importe
                                         </th>
                                         <th scope="col" class="text-lg font-medium text-white px-3 py-4">
                                             Categoría
                                         </th>
                                         <th scope="col" class="text-lg font-medium text-white px-3 py-4">
-                                            Ingreso
+                                            Descripción
                                         </th>
                                         <th scope="col" class="text-lg font-medium text-white px-3 py-4">
-                                            Gasto
+                                            Ingresos
+                                        </th>
+                                        <th scope="col" class="text-lg font-medium text-white px-3 py-4">
+                                            Gastos
                                         </th>
                                         <th scope="col" class="text-lg font-medium text-white px-3 py-4">
                                             Opciones
@@ -47,19 +52,21 @@
                                     </tr>
                                 </thead>
                                 <tbody class="max-w-xs">
-                                    <tr v-for="(item, index) in estimates" :key="index" class="bg-slate-50 border-b">
+                                    <tr v-for="(item, index) in transaction" :key="index" class="bg-slate-50 border-b">
                                         <td class="text-lg text-gray-900 font-light px-1 py-4 whitespace-nowrap">
-                                            {{ item.plan }}
+                                            {{ item.amount }}
                                         </td>
                                         <td class="text-lg text-gray-900 font-light px-1 py-4 whitespace-nowrap">
                                             {{ item.category.name }}
                                         </td>
                                         <td class="text-lg text-gray-900 font-light px-1 py-4 whitespace-nowrap">
-                                            <span v-for="(incomeData, index) in item.income">
-                                                {{ incomeData.income.amount }}
+                                            {{ item.description }}
+                                        </td>
+                                        <td class="text-lg text-gray-900 font-light px-1 py-4 whitespace-nowrap">
+                                            <span v-for="(income, index) in item.income">
+                                                {{ income.income.amount }}
                                                 <span
-                                                    v-if="(item.income as Array<any>).length && (item.income as Array<any>).length > index + 1">
-                                                    ,
+                                                    v-if="(item.income as Array<any>).length && (item.income as Array<any>).length > index + 1">,
                                                 </span>
                                             </span>
 
@@ -67,10 +74,10 @@
                                         <td class="text-lg text-gray-900 font-light px-1 py-4 whitespace-nowrap">
                                             <span v-for="(spent, index) in item.expenses">
                                                 {{ spent.spent.amount }}
-                                                <span
-                                                    v-if="(item.expenses as Array<any>).length && (item.expenses as Array<any>).length > index + 1">
-                                                    ,
-                                                </span>
+                                                {{ (spent.spent as Array<any>).length }}
+                                                    <span
+                                                        v-if="(item.expenses as Array<any>).length && (item.expenses as Array<any>).length > index + 1">,
+                                                    </span>
                                             </span>
                                         </td>
                                         <td class="text-lg text-gray-900 font-light px-1 py-4 whitespace-nowrap">
@@ -84,8 +91,8 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="flex pt-2" v-if="estimates?.length === 0">
-                            <button @click="canCreateEstimate = true"
+                        <div class="flex pt-2">
+                            <button @click="showCreateTransaction = true"
                                 class="inline-block px-6 py-2.5 bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700 active:shadow-lg transition duration-150 ease-in-out">
                                 Añadir
                             </button>
@@ -101,7 +108,7 @@
 // Imports
 import SuccessAlert from "./CustomAlerts/Success.vue"
 import WarnignAlert from "./CustomAlerts/Warning.vue"
-import CreateEstimateVue from "./CreateEstimate.vue";
+import CreateTransactionVue from "./CreateTransaction.vue"
 import Modal from "./Modal.vue"
 import Loader from "./Spinner.vue"
 import { getUserInfo } from "../Utils/utils"
@@ -124,10 +131,10 @@ const user = ref<any>();
 const userName = ref("");
 const loading = ref(false);
 // --- Current Pages constants
-const estimates = ref<Array<any>>();
-const estimateId = ref<number>(0);
-const estimateIndex = ref<number>(0);
-const canCreateEstimate = ref(false);
+const transaction = ref<Array<any>>();
+const transactionId = ref<number>(0);
+const transactionIndex = ref<number>(0);
+const showCreateTransaction = ref(false);
 // ---- Notifications
 const msg = ref("");
 const showModal = ref(false);
@@ -138,9 +145,9 @@ const showErrorAlert = ref(false);
 onMounted(async () => {
     loading.value = true;
 
-    const url: string = `${VITE_FM_API_URL}/estimate/budget/${props.idBudget}`;
-    let estimateData = await Axios.get(url);
-    estimates.value = estimateData.data.body;
+    const url: string = `${VITE_FM_API_URL}/transaction/budget/${props.idBudget}`;
+    let transactionData = await Axios.get(url);
+    transaction.value = transactionData.data.body
 
     // Current login user data
     user.value = (await getUserInfo()).body;
@@ -150,39 +157,39 @@ onMounted(async () => {
 })
 
 function openModal(id: number, index: number) {
-    estimateId.value = id;
-    estimateIndex.value = index;
+    transactionId.value = id;
+    transactionIndex.value = index;
     showModal.value = true;
 }
 
-async function deleteEstimate(id: any, index: number) {
+async function deleteTransaction(id: any, index: number) {
     loading.value = true;
-    const url: string = `${VITE_FM_API_URL}/estimate?idEntity=${id}`;
+    const url: string = `${VITE_FM_API_URL}/transaction?idEntity=${id}`;
     try {
         let result = await Axios.delete(url)
         if (result?.status == 200) {
-            estimates.value?.splice(index, 1);
-            msg.value = "Estimación eliminada correctamente";
+            transaction.value?.splice(index, 1);
+            msg.value = "Transación eliminada correctamente";
             showSuccessAlert.value = true;
             showErrorAlert.value = false;
         }
     }
     catch {
-        msg.value = "No se ha podido eliminar la estimación";
+        msg.value = "No se ha podido eliminar la transación";
         showSuccessAlert.value = false;
         showErrorAlert.value = true;
     }
     loading.value = false;
 }
 
-function insertEstimate(estimate: any) {
-    estimates.value?.push(estimate)
+function insertTransaction(estimate: any) {
+    transaction.value?.push(estimate)
 }
 
 </script>
 
 <style>
-.estimate-container {
+.transaction-container {
     background-color: var(--secundary-color);
 }
 </style>

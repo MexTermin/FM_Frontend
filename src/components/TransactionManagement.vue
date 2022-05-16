@@ -64,13 +64,12 @@
                                         </td>
                                         <td class="text-lg text-gray-900 font-light px-1 py-4 whitespace-nowrap">
                                             <span>
-                                                {{ (item.income as Array<any>).length != 0 ? "Ingreso" : "Gasto" }}
+                                                {{ (item.income as Array<any>)?.length != 0 ? "Ingreso" : "Gasto" }}
                                             </span>
-
                                         </td>
                                         <td class="text-lg text-gray-900 font-light px-1 py-4 whitespace-nowrap">
                                             <span>
-                                               {{ (item.income as Array<any>).length != 0 ? item.income[0].income.amount : item.expenses[0].spent.amount }}
+                                                {{ getAmount(item) }}
                                             </span>
                                         </td>
                                         <td class="text-lg text-gray-900 font-light px-1 py-4 whitespace-nowrap">
@@ -177,6 +176,15 @@ async function deleteTransaction(id: any, index: number) {
 
 function insertTransaction(estimate: any) {
     transaction.value?.push(estimate)
+}
+
+function getAmount(data: any): any {
+    console.log(data)
+    if (data) {
+        if ((data.income as Array<any>) != null && (data.income as Array<any>).length) return data.income[0].income.amount;
+        return data.expenses[0].spent.amount;
+    }
+    return null;
 }
 
 </script>

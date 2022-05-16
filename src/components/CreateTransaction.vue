@@ -22,7 +22,6 @@
                                             <input v-model="description" type="text"
                                                 class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                                                 id="description" placeholder="Descripción" name="description" />
-                                            <span>Cantidad</span>
                                             <span>Tipo</span>
                                             <div class="mb-4 w-100 d-flex justify-center ">
                                                 <div class="inline-block w-fit mr-4">
@@ -36,6 +35,7 @@
                                                     <label for="gasto">Gasto</label>
                                                 </div>
                                             </div>
+                                            <span>Cantidad</span>
                                             <input v-model="tipoAmount" type="number"
                                                 class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                                                 id="amount" placeholder="Cantidad" name="amount" />

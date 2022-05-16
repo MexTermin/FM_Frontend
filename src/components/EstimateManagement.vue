@@ -2,7 +2,7 @@
     <Loader v-if="loading" />
     <div
         class="fixed w-screen h-screen bg-black/75 backdrop-blur-sm top-0 left-0 flex items-center justify-center z-10">
-        <div class="estimate-container fixed left-1/4 top-1/4 w-4/6 p-3 shadow-lg shadow-gray-500/50">
+        <div class="estimate-container fixed left-1/4 w-4/6 p-3 shadow-lg shadow-gray-500/50">
             <!-- Modals region -->
             <SuccessAlert :text="msg" v-if="showSuccessAlert" @close="showSuccessAlert = false" />
             <WarnignAlert :text="msg" v-if="showErrorAlert" @close="showErrorAlert = false" />
@@ -25,7 +25,7 @@
                 <div class="overflow-x-auto mx-1">
                     <h3 class="text-3xl	 text-center mt-4">Estimaciones</h3>
                     <div class="py-4 inline-block min-w-full ">
-                        <div class="overflow-hidden">
+                        <div class="max-h-96 overflow-y-auto">
                             <table class="min-w-full text-center">
                                 <thead class="border-b  td-head">
                                     <tr>
@@ -36,10 +36,10 @@
                                             Categoría
                                         </th>
                                         <th scope="col" class="text-lg font-medium text-white px-3 py-4">
-                                            Ingreso
+                                            Tipo
                                         </th>
                                         <th scope="col" class="text-lg font-medium text-white px-3 py-4">
-                                            Gasto
+                                            Cantidad
                                         </th>
                                         <th scope="col" class="text-lg font-medium text-white px-3 py-4">
                                             Opciones
@@ -55,21 +55,14 @@
                                             {{ item.category.name }}
                                         </td>
                                         <td class="text-lg text-gray-900 font-light px-1 py-4 whitespace-nowrap">
-                                            <span v-for="(incomeData, index) in item.income">
-                                                {{ incomeData.income.amount }}
-                                                <span
-                                                    v-if="(item.income as Array<any>).length && (item.income as Array<any>).length > index + 1">
-                                                    ,
-                                                </span>
+                                            <span>
+                                                {{ (item.income as Array<any>)?.length != 0 ? "Ingreso" : "Gasto" }}
                                             </span>
-
                                         </td>
                                         <td class="text-lg text-gray-900 font-light px-1 py-4 whitespace-nowrap">
-                                            <span v-for="(spent, index) in item.expenses">
-                                                {{ spent.spent.amount }}
-                                                <span
-                                                    v-if="(item.expenses as Array<any>).length && (item.expenses as Array<any>).length > index + 1">
-                                                    ,
+                                            <span>
+                                                <span>
+                                                    {{ getAmount(item) }}
                                                 </span>
                                             </span>
                                         </td>
@@ -84,7 +77,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="flex pt-2" v-if="estimates?.length === 0">
+                        <div class="flex pt-2">
                             <button @click="canCreateEstimate = true"
                                 class="inline-block px-6 py-2.5 bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700 active:shadow-lg transition duration-150 ease-in-out">
                                 Añadir
@@ -141,6 +134,7 @@ onMounted(async () => {
     const url: string = `${VITE_FM_API_URL}/estimate/budget/${props.idBudget}`;
     let estimateData = await Axios.get(url);
     estimates.value = estimateData.data.body;
+    console.log(estimates)
 
     // Current login user data
     user.value = (await getUserInfo()).body;
@@ -173,6 +167,15 @@ async function deleteEstimate(id: any, index: number) {
         showErrorAlert.value = true;
     }
     loading.value = false;
+}
+
+function getAmount(data: any): any {
+    console.log(data)
+    if(data){
+        if ((data.income as Array<any>) != null && (data.income as Array<any>).length) return data.income[0].income.amount;
+        return data.expenses[0].spent.amount;
+    }
+    return null;
 }
 
 function insertEstimate(estimate: any) {

@@ -18,14 +18,23 @@
                                             <input v-model="plan" type="number"
                                                 class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                                                 id="plan" placeholder="Plan" name="plan" />
-                                            <span>Gasto</span>
-                                            <input v-model="spent" type="number"
+                                            <span>Tipo</span>
+                                            <div class="mb-4 w-100 d-flex justify-center ">
+                                                <div class="inline-block w-fit mr-4">
+                                                    <input checked type="radio" class="mr-2" id="ingreso" name="tipo" value="1"
+                                                        @click="tipo = 'ingreso'" />
+                                                    <label for="ingreso">Ingreso</label>
+                                                </div>
+                                                <div class="inline-block w-fit">
+                                                    <input type="radio" class="mr-2" id="gasto" name="tipo" value="2"
+                                                        @click="tipo = 'gasto'" />
+                                                    <label for="gasto">Gasto</label>
+                                                </div>
+                                            </div>
+                                            <span>Cantidad</span>
+                                            <input v-model="tipoAmount" type="number"
                                                 class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                                                id="spent" placeholder="Gasto" name="spent" />
-                                            <span>Ingreso</span>
-                                            <input v-model="income" type="number"
-                                                class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                                                id="income" placeholder="Income" name="income" />
+                                                id="amount" placeholder="Cantidad" name="amount" />
                                             <span>Seleccione una Categoría</span>
                                             <select v-model="categoryId" name="categoryId" id="categoryId"
                                                 class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none">
@@ -75,8 +84,8 @@ const { VITE_FM_API_URL } = import.meta.env;
 // --- Current page
 const categoryId = ref(0);
 const plan = ref(0);
-const spent = ref(0);
-const income = ref(0);
+const tipo = ref('ingreso');
+const tipoAmount = ref(0);
 const categories = ref<any>();
 // --- Notifications
 const msg = ref<string>(null!);
@@ -119,10 +128,14 @@ async function CreateEstimate() {
         "plan": plan.value,
         "id_category": categoryId.value,
         "id_budget": props.idBudget,
-        "spent": { "amount": spent.value },
-        "singleIncome": { "amount": income.value }
+        "spent": null as null | { amount: number },
+        "singleIncome": null as null | { amount: number }
     }
-    if (!plan.value || !categoryId.value || !income.value || !spent.value) {
+
+    if (tipo.value == "gasto") body.spent = { "amount": tipoAmount.value };
+    else if (tipo.value == "ingreso") body.singleIncome = { "amount": tipoAmount.value };
+
+    if (!plan.value || !categoryId.value || !tipoAmount.value || !tipo.value) {
         showAlert.value = true;
         msg.value = "Llene todos los campos correctamente";
         return;

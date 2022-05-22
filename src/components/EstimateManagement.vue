@@ -30,16 +30,13 @@
                                 <thead class="border-b  td-head">
                                     <tr>
                                         <th scope="col" class="text-lg font-medium text-white px-3 py-4">
-                                            Plan
-                                        </th>
-                                        <th scope="col" class="text-lg font-medium text-white px-3 py-4">
                                             Categoría
                                         </th>
                                         <th scope="col" class="text-lg font-medium text-white px-3 py-4">
                                             Tipo
                                         </th>
                                         <th scope="col" class="text-lg font-medium text-white px-3 py-4">
-                                            Cantidad
+                                            Plan
                                         </th>
                                         <th scope="col" class="text-lg font-medium text-white px-3 py-4">
                                             Opciones
@@ -49,22 +46,15 @@
                                 <tbody class="max-w-xs">
                                     <tr v-for="(item, index) in estimates" :key="index" class="bg-slate-50 border-b">
                                         <td class="text-lg text-gray-900 font-light px-1 py-4 whitespace-nowrap">
-                                            {{ item.plan }}
-                                        </td>
-                                        <td class="text-lg text-gray-900 font-light px-1 py-4 whitespace-nowrap">
                                             {{ item.category.name }}
                                         </td>
                                         <td class="text-lg text-gray-900 font-light px-1 py-4 whitespace-nowrap">
                                             <span>
-                                                {{ (item.income as Array<any>)?.length != 0 ? "Ingreso" : "Gasto" }}
+                                                {{ item.type.name }}
                                             </span>
                                         </td>
                                         <td class="text-lg text-gray-900 font-light px-1 py-4 whitespace-nowrap">
-                                            <span>
-                                                <span>
-                                                    {{ getAmount(item) }}
-                                                </span>
-                                            </span>
+                                            {{ item.plan }}
                                         </td>
                                         <td class="text-lg text-gray-900 font-light px-1 py-4 whitespace-nowrap">
                                             <button
@@ -134,8 +124,7 @@ onMounted(async () => {
     const url: string = `${VITE_FM_API_URL}/estimate/budget/${props.idBudget}`;
     let estimateData = await Axios.get(url);
     estimates.value = estimateData.data.body;
-    console.log(estimates)
-
+    
     // Current login user data
     user.value = (await getUserInfo()).body;
     userName.value = user.value.name;
@@ -171,7 +160,7 @@ async function deleteEstimate(id: any, index: number) {
 
 function getAmount(data: any): any {
     console.log(data)
-    if(data){
+    if (data) {
         if ((data.income as Array<any>) != null && (data.income as Array<any>).length) return data.income[0].income.amount;
         return data.expenses[0].spent.amount;
     }

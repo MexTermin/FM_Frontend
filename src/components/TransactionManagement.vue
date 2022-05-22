@@ -32,9 +32,6 @@
                                 <thead class="border-b td-head ">
                                     <tr>
                                         <th scope="col" class="text-lg font-medium text-white px-3 py-4">
-                                            Importe
-                                        </th>
-                                        <th scope="col" class="text-lg font-medium text-white px-3 py-4">
                                             Categoría
                                         </th>
                                         <th scope="col" class="text-lg font-medium text-white px-3 py-4">
@@ -44,7 +41,7 @@
                                             Tipo
                                         </th>
                                         <th scope="col" class="text-lg font-medium text-white px-3 py-4">
-                                            Cantidad
+                                            Importe
                                         </th>
                                         <th scope="col" class="text-lg font-medium text-white px-3 py-4">
                                             Opciones
@@ -54,9 +51,6 @@
                                 <tbody class="max-w-xs">
                                     <tr v-for="(item, index) in transaction" :key="index" class="bg-slate-50 border-b">
                                         <td class="text-lg text-gray-900 font-light px-1 py-4 whitespace-nowrap">
-                                            {{ item.amount }}
-                                        </td>
-                                        <td class="text-lg text-gray-900 font-light px-1 py-4 whitespace-nowrap">
                                             {{ item.category.name }}
                                         </td>
                                         <td class="text-lg text-gray-900 font-light px-1 py-4 whitespace-nowrap">
@@ -64,13 +58,11 @@
                                         </td>
                                         <td class="text-lg text-gray-900 font-light px-1 py-4 whitespace-nowrap">
                                             <span>
-                                                {{ (item.income as Array<any>)?.length != 0 ? "Ingreso" : "Gasto" }}
+                                                {{ item.type.name }}
                                             </span>
                                         </td>
                                         <td class="text-lg text-gray-900 font-light px-1 py-4 whitespace-nowrap">
-                                            <span>
-                                                {{ getAmount(item) }}
-                                            </span>
+                                            {{ item.amount }}
                                         </td>
                                         <td class="text-lg text-gray-900 font-light px-1 py-4 whitespace-nowrap">
                                             <button
@@ -140,8 +132,8 @@ onMounted(async () => {
     const url: string = `${VITE_FM_API_URL}/transaction/budget/${props.idBudget}`;
     let transactionData = await Axios.get(url);
     transaction.value = transactionData.data.body
-    console.log(transaction)
-    // Current login user data
+
+// Current login user data
     user.value = (await getUserInfo()).body;
     userName.value = user.value.name;
 
@@ -176,15 +168,6 @@ async function deleteTransaction(id: any, index: number) {
 
 function insertTransaction(estimate: any) {
     transaction.value?.push(estimate)
-}
-
-function getAmount(data: any): any {
-    console.log(data)
-    if (data) {
-        if ((data.income as Array<any>) != null && (data.income as Array<any>).length) return data.income[0].income.amount;
-        return data.expenses[0].spent.amount;
-    }
-    return null;
 }
 
 </script>

@@ -25,20 +25,16 @@
                                             <span>Tipo</span>
                                             <div class="mb-4 w-100 d-flex justify-center ">
                                                 <div class="inline-block w-fit mr-4">
-                                                    <input checked type="radio" class="mr-2" id="ingreso" name="tipo" value="1"
-                                                        @click="tipo = 'ingreso'" />
+                                                    <input checked type="radio" class="mr-2" id="ingreso" name="tipo"
+                                                        value="1" @click="tipo = 2" />
                                                     <label for="ingreso">Ingreso</label>
                                                 </div>
                                                 <div class="inline-block w-fit">
                                                     <input type="radio" class="mr-2" id="gasto" name="tipo" value="2"
-                                                        @click="tipo = 'gasto'" />
+                                                        @click="tipo = 1" />
                                                     <label for="gasto">Gasto</label>
                                                 </div>
                                             </div>
-                                            <span>Cantidad</span>
-                                            <input v-model="tipoAmount" type="number"
-                                                class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                                                id="amount" placeholder="Cantidad" name="amount" />
                                             <span>Seleccione una Categoría</span>
                                             <select v-model="categoryId" name="categoryId" id="categoryId"
                                                 class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none">
@@ -74,7 +70,7 @@
 <script lang="ts" setup>
 // Imports
 import AlertWarning from "../components/CustomAlerts/Warning.vue";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, toDisplayString } from "vue";
 import { computed } from "@vue/reactivity";
 import { getUserInfo } from "../Utils/utils"
 import "../types/TypesApi"
@@ -86,8 +82,7 @@ const { VITE_FM_API_URL } = import.meta.env;
 // --- Current page
 const categoryId = ref(0);
 const amount = ref(0); // Importe
-const tipo = ref('ingreso');
-const tipoAmount = ref(0);
+const tipo = ref(2);
 const description = ref("");
 const categories = ref<any>();
 // --- Notifications
@@ -132,14 +127,10 @@ async function CreateTransaction() {
         "id_category": categoryId.value,
         "id_budget": props.idBudget,
         "description": description.value,
-        "expenses": null as null | { amount: number }[],
-        "income": null as null | { amount: number }[]
+        "id_type": tipo.value
     }
 
-    if (tipo.value == "gasto") body.expenses = [{ "amount": tipoAmount.value }];
-    else if (tipo.value == "ingreso") body.income = [{ "amount": tipoAmount.value }];
-
-    if (!amount.value || !categoryId.value || !tipoAmount.value) {
+    if (!amount.value || !categoryId.value || !tipo.value) {
         showAlert.value = true;
         msg.value = "Llene todos los campos correctamente";
         return;

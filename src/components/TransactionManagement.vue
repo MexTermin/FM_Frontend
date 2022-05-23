@@ -62,7 +62,7 @@
                                             </span>
                                         </td>
                                         <td class="text-lg text-gray-900 font-light px-1 py-4 whitespace-nowrap">
-                                            {{ item.amount }}
+                                            ${{ item.amount }}
                                         </td>
                                         <td class="text-lg text-gray-900 font-light px-1 py-4 whitespace-nowrap">
                                             <button

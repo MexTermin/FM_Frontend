@@ -54,7 +54,7 @@
                                             </span>
                                         </td>
                                         <td class="text-lg text-gray-900 font-light px-1 py-4 whitespace-nowrap">
-                                            {{ item.plan }}
+                                            ${{ item.plan }}
                                         </td>
                                         <td class="text-lg text-gray-900 font-light px-1 py-4 whitespace-nowrap">
                                             <button

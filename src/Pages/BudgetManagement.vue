@@ -58,6 +58,10 @@
                                             class="inline-block mr-2 px-6 py-2.5 bg-blue-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-500 hover:shadow-lg focus:bg-blue-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-600 active:shadow-lg transition duration-150 ease-in-out">
                                             Trasacciones
                                         </button>
+                                        <button @click="generateReport(item.id)"
+                                            class="inline-block mr-2 px-6 py-2.5 bg-blue-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-500 hover:shadow-lg focus:bg-blue-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-600 active:shadow-lg transition duration-150 ease-in-out">
+                                            Reporte
+                                        </button>
                                         <button
                                             class="inline-block px-6 py-2.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out"
                                             type="button" v-on:click='openModal(item.id, index)'>
@@ -152,6 +156,26 @@ async function deleteBudget(id: any, index: number) {
     loading.value = false;
 }
 
+async function generateReport(id: number) {
+    loading.value = true;
+    const url: string = `${VITE_FM_API_URL}/pdf/${id}`;
+    const newWindow = window.open(
+        '_blank',
+    );
+    const { data } = await Axios.get(url);
+    const frame = newWindow?.document.createElement("iframe");
+    if (frame && newWindow) {
+        frame.style.width = "100vw";
+        frame.style.height = "100vh";
+        frame.style.border = "0px solid transparent";
+        frame.src = `data:application/pdf;base64,${data.buffer}`;
+
+        newWindow.document.body.style.padding = "0px";
+        newWindow.document.body.style.margin = "0px";
+        newWindow.document.body.appendChild(frame as Node);
+    }
+    loading.value = false;
+}
 </script>
 
 <style>

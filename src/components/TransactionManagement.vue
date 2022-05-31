@@ -11,6 +11,8 @@
                 @confirm="deleteTransaction(transactionId, transactionIndex)" @close="showModal = false" />
             <CreateTransactionVue v-if="showCreateTransaction" @close="showCreateTransaction = false"
                 :idBudget="idBudget" @transactionData="insertTransaction" />
+            <EditTransactionVue v-if="showEditTransaction" :idTrasaction="transactionId"
+                @close="showEditTransaction = false" @transactionData="updateTransaction"></EditTransactionVue>
             <!--- End region-->
 
             <div class="flex justify-end">
@@ -67,8 +69,12 @@
                                         <td class="text-lg text-gray-900 font-light px-1 py-4 whitespace-nowrap">
                                             <button
                                                 class="inline-block px-6 py-2.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out"
-                                                type="button" v-on:click='openModal(item.id, index)'>
+                                                type="button" @click='openModal(item.id, index)'>
                                                 Eliminar
+                                            </button>
+                                            <button @click="openEditModal(item.id, index)"
+                                                class="inline-block px-6 py-2.5 bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700 active:shadow-lg transition duration-150 ease-in-out">
+                                                Editar
                                             </button>
                                         </td>
                                     </tr>
@@ -93,6 +99,7 @@
 import SuccessAlert from "./CustomAlerts/Success.vue"
 import WarnignAlert from "./CustomAlerts/Warning.vue"
 import CreateTransactionVue from "./CreateTransaction.vue"
+import EditTransactionVue from "./EditTransaction.vue"
 import Modal from "./Modal.vue"
 import Loader from "./Spinner.vue"
 import { getUserInfo } from "../Utils/utils"
@@ -122,6 +129,7 @@ const showCreateTransaction = ref(false);
 // ---- Notifications
 const msg = ref("");
 const showModal = ref(false);
+const showEditTransaction = ref(false);
 const showSuccessAlert = ref(false);
 const showErrorAlert = ref(false);
 
@@ -133,7 +141,7 @@ onMounted(async () => {
     let transactionData = await Axios.get(url);
     transaction.value = transactionData.data.body
 
-// Current login user data
+    // Current login user data
     user.value = (await getUserInfo()).body;
     userName.value = user.value.name;
 
@@ -144,6 +152,12 @@ function openModal(id: number, index: number) {
     transactionId.value = id;
     transactionIndex.value = index;
     showModal.value = true;
+}
+
+function openEditModal(id: number, index: number) {
+    transactionId.value = id;
+    transactionIndex.value = index;
+    showEditTransaction.value = true
 }
 
 async function deleteTransaction(id: any, index: number) {
@@ -166,10 +180,13 @@ async function deleteTransaction(id: any, index: number) {
     loading.value = false;
 }
 
-function insertTransaction(estimate: any) {
-    transaction.value?.push(estimate)
+function insertTransaction(newTransaction: any) {
+    transaction.value?.push(newTransaction)
 }
 
+function updateTransaction(UpdatedTransaction: any) {
+    if (transaction.value) transaction.value[transactionIndex.value] = UpdatedTransaction;
+}
 </script>
 
 <style>

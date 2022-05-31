@@ -109,7 +109,7 @@ onMounted(async () => {
     // Data to Edit
     defaultCateogry.value = data.body.category.name;
     categoryId.value = data.body.id_category;
-    amount.value = data.body.amount;
+    amount.value = data.body.plan;
     budgetId.value = data.body.id_budget;
     tipo.value = data.body.type.id;
 

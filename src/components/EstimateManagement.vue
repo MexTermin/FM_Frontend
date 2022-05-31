@@ -10,6 +10,8 @@
                 @confirm="deleteEstimate(estimateId, estimateIndex)" @close="showModal = false" />
             <CreateEstimateVue v-if="canCreateEstimate" @close="canCreateEstimate = false" :idBudget="idBudget"
                 @estimateData="insertEstimate" />
+            <EditEstimateVue :id-estimation="estimateId" @estimateData="updateTransaction" v-if="showEditEstimate"
+                @close="showEditEstimate = false"></EditEstimateVue>
             <!--- End region-->
             <div class="flex justify-end">
                 <button type="button" @click="$emit('close')"
@@ -62,6 +64,10 @@
                                                 type="button" v-on:click='openModal(item.id, index)'>
                                                 Eliminar
                                             </button>
+                                            <button @click="openEditModal(item.id, index)"
+                                                class="inline-block px-6 py-2.5 bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700 active:shadow-lg transition duration-150 ease-in-out">
+                                                Editar
+                                            </button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -85,6 +91,7 @@
 import SuccessAlert from "./CustomAlerts/Success.vue"
 import WarnignAlert from "./CustomAlerts/Warning.vue"
 import CreateEstimateVue from "./CreateEstimate.vue";
+import EditEstimateVue from "./EditEstimate.vue";
 import Modal from "./Modal.vue"
 import Loader from "./Spinner.vue"
 import { getUserInfo } from "../Utils/utils"
@@ -116,6 +123,8 @@ const msg = ref("");
 const showModal = ref(false);
 const showSuccessAlert = ref(false);
 const showErrorAlert = ref(false);
+const showEditEstimate = ref(false);
+
 
 // Functions
 onMounted(async () => {
@@ -124,7 +133,7 @@ onMounted(async () => {
     const url: string = `${VITE_FM_API_URL}/estimate/budget/${props.idBudget}`;
     let estimateData = await Axios.get(url);
     estimates.value = estimateData.data.body;
-    
+
     // Current login user data
     user.value = (await getUserInfo()).body;
     userName.value = user.value.name;
@@ -158,19 +167,19 @@ async function deleteEstimate(id: any, index: number) {
     loading.value = false;
 }
 
-function getAmount(data: any): any {
-    console.log(data)
-    if (data) {
-        if ((data.income as Array<any>) != null && (data.income as Array<any>).length) return data.income[0].income.amount;
-        return data.expenses[0].spent.amount;
-    }
-    return null;
+function openEditModal(id: number, index: number) {
+    estimateId.value = id;
+    estimateIndex.value = index;
+    showEditEstimate.value = true
 }
 
-function insertEstimate(estimate: any) {
-    estimates.value?.push(estimate)
+function insertEstimate(newEstimate: any) {
+    estimates.value?.push(newEstimate)
 }
 
+function updateTransaction(UpdatedEstimate: any) {
+    if (estimates.value) estimates.value[estimateIndex.value] = UpdatedEstimate;
+}
 </script>
 
 <style>

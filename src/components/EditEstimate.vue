@@ -10,22 +10,14 @@
                             <div class="lg:w-11/12 px-4 md:px-0">
                                 <div class="md:p-5 md:mx-6">
                                     <div class="text-center">
-                                        <h4 class="text-xl font-semibold mt-3 mb-8 pb-1">Actualizar transación</h4>
+                                        <h4 class="text-xl font-semibold mt-3 mb-8 pb-1">Actualizar estimación</h4>
                                     </div>
                                     <form>
                                         <div class="mb-4">
-                                            <span>Importe</span>
+                                            <span>PLan</span>
                                             <input v-model="amount" type="number"
                                                 class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                                                id="amount" placeholder="Importe" name="amount" />
-                                            <span>Descripción</span>
-                                            <input v-model="description" type="text"
-                                                class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                                                id="description" placeholder="Descripción" name="description" />
-                                            <span>Fecha</span>
-                                            <input v-model="date" type="date"
-                                                class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                                                id="date" placeholder="Fecha" name="date" />
+                                                id="amount" placeholder="PLan" name="amount" />
                                             <span>Tipo</span>
                                             <div class="mb-4 w-100 d-flex justify-center ">
                                                 <div class="inline-block w-fit mr-4">
@@ -49,7 +41,7 @@
                                             </select>
                                         </div>
                                         <div class="text-center pt-1 mb-12 pb-1">
-                                            <button v-on:click="UpdateTransaction" id="btn-guardar"
+                                            <button v-on:click="UpdateEstimate" id="btn-guardar"
                                                 class="inline-block px-6 py-2.5 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full mb-3"
                                                 type="button" data-mdb-ripple="true" data-mdb-ripple-color="light">
                                                 Guardar
@@ -88,8 +80,6 @@ const defaultCateogry = ref("")
 const amount = ref(0); // Importe
 const tipo = ref(0);
 const isIncome = ref(false);
-const date = ref("");
-const description = ref("");
 const categories = ref<any>();
 const budgetId = ref(0);
 // --- Notifications
@@ -101,11 +91,11 @@ const loading = ref(false);
 const user = ref<any>();
 const userName = ref("");
 
-const emits = defineEmits(['close', "transactionData"])
+const emits = defineEmits(['close', "estimateData"])
 
 // Props
 interface Props {
-    idTrasaction: number;
+    idEstimation: number;
 }
 let props = defineProps<Props>();
 
@@ -113,20 +103,12 @@ let props = defineProps<Props>();
 onMounted(async () => {
     loading.value = true;
     const urlCategory: string = `${VITE_FM_API_URL}/category`;
-    const urlTransaction: string = `${VITE_FM_API_URL}/transaction/${props.idTrasaction}`;
+    const urlTransaction: string = `${VITE_FM_API_URL}/estimate/${props.idEstimation}`;
 
     const { data } = await Axios.get(urlTransaction);
     // Data to Edit
     defaultCateogry.value = data.body.category.name;
     categoryId.value = data.body.id_category;
-    description.value = data.body.description;
-
-    const previewsDate = new Date(data.body.date).toLocaleDateString("en-GB", {
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-    }).split("/");
-    date.value = previewsDate.reverse().join("-");
     amount.value = data.body.amount;
     budgetId.value = data.body.id_budget;
     tipo.value = data.body.type.id;
@@ -143,19 +125,17 @@ onMounted(async () => {
 
 })
 
-async function UpdateTransaction() {
-    const url: string = `${VITE_FM_API_URL}/transaction`;
-    const urlTransaction: string = `${VITE_FM_API_URL}/transaction/${props.idTrasaction}`;
+async function UpdateEstimate() {
+    const url: string = `${VITE_FM_API_URL}/estimate`;
+    const urlEstimate: string = `${VITE_FM_API_URL}/estimate/${props.idEstimation}`;
     const body = {
-        "id": props.idTrasaction,
-        "amount": amount.value,
+        "id": props.idEstimation,
+        "plan": amount.value,
         "id_category": categoryId.value,
-        "date": new Date(date.value).toJSON(),
         "id_budget": budgetId.value,
-        "description": description.value,
         "id_type": tipo.value
     }
-    if (!amount.value || !categoryId.value || !tipo.value || !date.value) {
+    if (!amount.value || !categoryId.value || !tipo.value) {
         showAlert.value = true;
         msg.value = "Llene todos los campos correctamente";
         return;
@@ -170,20 +150,20 @@ async function UpdateTransaction() {
         }
     })
 
-    const updatedTransactionData = await fetch(urlTransaction, {
+    const updatedEstimateData = await fetch(urlEstimate, {
         method: "GET"
     })
-    const transactionData = (await data.json()) as DataResponse;
-    const newTransaction = (await updatedTransactionData.json()).body
+    const estimateData = (await data.json()) as DataResponse;
+    const newEstimate = (await updatedEstimateData.json()).body
     if (data.ok) {
         msg.value = "actualizado correctamente";
         showAlert.value = true;
         emits("close");
-        emits("transactionData", newTransaction);
+        emits("estimateData", newEstimate);
 
     } else {
-        if (transactionData.error) msg.value = transactionData.message;
-        else msg.value = "No se ha podido actualizar la transación";
+        if (estimateData.error) msg.value = estimateData.message;
+        else msg.value = "No se ha podido actualizar la estimación";
         showAlert.value = true;
     }
 

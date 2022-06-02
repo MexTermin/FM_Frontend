@@ -3,8 +3,8 @@
         <div class="sidebar">
             <Sidebar :userName="userName" :imgProfile="imgProfile" :isAdult="true" />
         </div>
-        <Modal :show="showModal" text="¿Deseas eliminar este presupuesto?" btnColor="red"
-            @confirm="deleteCategory(id)" @close="showModal = false" />
+        <Modal :show="showModal" text="¿Deseas eliminar este presupuesto?" btnColor="red" @confirm="deleteBudget(id)"
+            @close="showModal = false" />
         <div class="container py-12 px-6 h-5/6 w-5/6 ml-auto">
             <div class="flex justify-center items-center flex-wrap h-full g-6 text-gray-800 ">
                 <div class="w-3/6">
@@ -117,7 +117,7 @@ onMounted(async () => {
 
 });
 
-async function deleteCategory(id: any, index: number) {
+async function deleteBudget(id: any) {
     loading.value = true;
     const url: string = `${VITE_FM_API_URL}/budget?idEntity=${id}`;
     try {
